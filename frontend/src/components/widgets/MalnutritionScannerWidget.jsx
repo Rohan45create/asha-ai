@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../utils/api';
 import { saveFeedback } from '../../utils/feedbackDb';
 import NRC_FIELD_MAP from '../../config/nrc_referral_field_map.json';
+import AiScreeningDisclaimer from '../AiScreeningDisclaimer';
 
 const GRADE_CONFIG = {
   NORMAL: {
@@ -289,6 +290,9 @@ export default function MalnutritionScannerWidget({ onGradeConfirmed, prefillDat
 
               <ConfidenceBar value={gradeResult.confidence ?? 0} />
 
+              {/* AI-assisted screening disclaimer */}
+              <AiScreeningDisclaimer className="mt-3 mb-1" />
+
               {/* Machine-translation disclaimer */}
               {activeLang !== 'en' && !translateLoading && translationCache[activeLang] && (
                 <div style={{ marginTop: '10px', padding: '8px 12px', background: '#FFF8E1', border: '1px solid #FFCA28', borderRadius: '8px', display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
@@ -372,7 +376,7 @@ export default function MalnutritionScannerWidget({ onGradeConfirmed, prefillDat
                 </button>
 
                 <p style={{ fontSize: '11px', color: '#5F5E5A', textAlign: 'center', margin: 0 }}>
-                  Fills MUAC, grade, clinical signs &amp; report into survey fields — worker reviews &amp; submits.
+                  Fills Estimated MUAC (confirm with tape), grade, clinical signs &amp; report into survey fields — worker reviews &amp; submits.
                 </p>
               </div>
 

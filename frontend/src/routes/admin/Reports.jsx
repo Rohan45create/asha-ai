@@ -3,6 +3,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { apiFetch } from '../../utils/api';
 import AdminReportModal from '../../components/AdminReportModal';
 import { getAllFeedback, clearFeedback } from '../../utils/feedbackDb';
+import AiScreeningDisclaimer from '../../components/AiScreeningDisclaimer';
 
 const FALLBACK_ASHA_IDS = [
   'asha_lata_001', 'asha_priya_002', 'asha_kavita_003',
@@ -52,7 +53,7 @@ export default function Reports() {
   const handleExportCSV = () => {
     const headers = ['Metric', 'This Month', 'Last Month', 'Change'];
     const rows = metrics.map(m => [m.name, m.current, m.previous, m.str]);
-    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const csv = ['# NOTICE: AI-assisted screening, not a diagnosis. Confirm with a clinician.', [headers, ...rows].map(r => r.join(',')).join('\n')].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -126,6 +127,8 @@ export default function Reports() {
           <span className="material-symbols-outlined text-lg">download</span> Export CSV
         </button>
       </div>
+
+      <AiScreeningDisclaimer className="mb-6" />
 
       {loading ? (
         <div className="bg-white rounded-2xl p-8 text-center animate-pulse text-[#5F5E5A]">Loading report data…</div>

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import BaseModuleForm from '../../../components/BaseModuleForm';
 import AadhaarLinkagePopup from '../../../components/AadhaarLinkagePopup';
+import AiScreeningDisclaimer from '../../../components/AiScreeningDisclaimer';
 import { apiFetch } from '../../../utils/api';
 
 const FIELDS = [
@@ -111,6 +112,7 @@ export default function ANCRegistration() {
           AI Genetic & Maternal Risk Prediction
         </h3>
         <p className={`text-sm font-bold mb-2 ${isHigh ? 'text-[#E24B4A]' : 'text-[#1D9E75]'}`}>Risk Level: {prediction.riskLevel}</p>
+        <AiScreeningDisclaimer className="my-2.5" />
         <p className="text-sm text-gray-700 mb-4">{prediction.predictionSummary}</p>
         
         {prediction.recommendedTests && prediction.recommendedTests.length > 0 && (

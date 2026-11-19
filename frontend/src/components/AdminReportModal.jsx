@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '../utils/api';
 import { useTx } from '../context/TranslationContext';
+import AiScreeningDisclaimer from './AiScreeningDisclaimer';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -26,7 +27,7 @@ const SURVEY_CONFIGS = {
   },
   'children': {
     title: 'Child Growth & Registrations',
-    headers: ['Sr No', 'ASHA Name', 'Child Name', 'Gender', 'DOB', 'Birth Wt', 'Curr Wt', 'Height', 'MUAC', 'Nutrition', 'Mother Name'],
+    headers: ['Sr No', 'ASHA Name', 'Child Name', 'Gender', 'DOB', 'Birth Wt', 'Curr Wt', 'Height', 'Estimated MUAC (confirm with tape)', 'Nutrition', 'Mother Name'],
     mapRow: (c, i, ashaName) => [String(i + 1), ashaName, String(c.name || c.childName || '-'), String(c.gender || '-'), String(c.dob || '-'), String(c.birthWeight || '-'), String(c.currentWeight || '-'), String(c.height || '-'), String(c.muac || '-'), String(c.nutritionStatus || '-'), String(c.motherName || '-')]
   },
   'vaccinations': {
@@ -129,7 +130,11 @@ export default function AdminReportModal({ isOpen, onClose, metricName, ashaIds 
       docPdf.text(`Report Period: ${start.toLocaleDateString()} to ${end.toLocaleDateString()}`, 14, 30);
       docPdf.text(`Generated On: ${new Date().toLocaleString()}`, 14, 36);
 
-      let startY = 44;
+      docPdf.setFontSize(8);
+      docPdf.setTextColor(180, 83, 9);
+      docPdf.text("NOTICE: AI-assisted screening, not a diagnosis. Confirm with a clinician.", 14, 42);
+
+      let startY = 48;
 
       if (allData.length === 0) {
         docPdf.setFontSize(12);
@@ -172,9 +177,11 @@ export default function AdminReportModal({ isOpen, onClose, metricName, ashaIds 
           </button>
         </div>
 
-        <p className="text-sm text-[#5F5E5A] mb-6">
+        <p className="text-sm text-[#5F5E5A] mb-4">
           {tx('This will export records from all ASHA workers for this metric.')}
         </p>
+
+        <AiScreeningDisclaimer className="mb-4" />
 
         <div className="space-y-4 mb-6">
           <div>

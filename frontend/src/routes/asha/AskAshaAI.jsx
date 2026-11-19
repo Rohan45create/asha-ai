@@ -6,6 +6,7 @@ import { useVoiceRecorder } from '../../hooks/useVoiceRecorder';
 import { useTx } from '../../context/TranslationContext';
 import { useLanguageStore } from '../../stores/languageStore';
 import { apiFetch } from '../../utils/api';
+import AiScreeningDisclaimer from '../../components/AiScreeningDisclaimer';
 
 const QUICK_QUESTIONS = [
   { label: 'SAM Signs?', q: 'What are the signs of Severe Acute Malnutrition in a child?' },
@@ -153,6 +154,10 @@ export default function AskAshaAI() {
             {tx('Powered by Gemini')} · {tx('Always online')}
           </p>
         </div>
+      </div>
+
+      <div style={{ padding: '8px 16px 0' }}>
+        <AiScreeningDisclaimer />
       </div>
 
       {/* ── Quick Questions (show only at start) ── */}

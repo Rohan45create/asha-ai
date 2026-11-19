@@ -4,6 +4,7 @@ import { useTx } from '../context/TranslationContext';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { useAuthStore } from '../stores/authStore';
+import AiScreeningDisclaimer from './AiScreeningDisclaimer';
 
 const SURVEY_CONFIGS = {
   'households': {
@@ -18,7 +19,7 @@ const SURVEY_CONFIGS = {
   },
   'children': {
     title: 'Child Growth & Registrations',
-    headers: ['Sr No', 'Child Name', 'Gender', 'DOB', 'Birth Weight', 'Curr Weight', 'Height', 'MUAC', 'Nutrition', 'Mother Name'],
+    headers: ['Sr No', 'Child Name', 'Gender', 'DOB', 'Birth Weight', 'Curr Weight', 'Height', 'Estimated MUAC (confirm with tape)', 'Nutrition', 'Mother Name'],
     mapRow: (c, i) => [String(i + 1), String(c.name || c.childName || '-'), String(c.gender || '-'), String(c.dob || '-'), String(c.birthWeight || '-'), String(c.currentWeight || '-'), String(c.height || '-'), String(c.muac || '-'), String(c.nutritionStatus || '-'), String(c.motherName || '-')]
   },
   'pregnancies': {
@@ -118,7 +119,11 @@ export default function DailyReportModal({ isOpen, onClose, ashaId }) {
       doc.text(`Report Period: ${start.toLocaleDateString()} to ${end.toLocaleDateString()}`, 14, 36);
       doc.text(`Generated On: ${new Date().toLocaleString()}`, 14, 42);
 
-      let startY = 50;
+      doc.setFontSize(8);
+      doc.setTextColor(180, 83, 9);
+      doc.text("NOTICE: AI-assisted screening, not a diagnosis. Confirm with a clinician.", 14, 48);
+
+      let startY = 54;
 
       if (surveyData.length === 0) {
         doc.setFontSize(12);
@@ -162,6 +167,8 @@ export default function DailyReportModal({ isOpen, onClose, ashaId }) {
             <span className="material-symbols-outlined">close</span>
           </button>
         </div>
+
+        <AiScreeningDisclaimer className="mb-4" />
 
         <div className="space-y-4 mb-6">
           <div>

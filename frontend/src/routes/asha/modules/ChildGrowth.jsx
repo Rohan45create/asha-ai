@@ -18,11 +18,11 @@ const FIELDS = [
   ]},
   { id: 'weight_kg', label: 'Weight (kg)', type: 'number', required: true, placeholder: 'e.g. 8.5' },
   { id: 'height_cm', label: 'Height (cm)', type: 'number', required: true, placeholder: 'e.g. 72' },
-  { id: 'muac_cm', label: 'MUAC (cm)', type: 'number', placeholder: 'e.g. 13.5' },
-  { id: 'muac_color', label: 'MUAC Color Zone', type: 'select', options: [
-    { value: 'GREEN', label: 'Green (â‰¥13.5cm â€” Normal)' },
-    { value: 'YELLOW', label: 'Yellow (12.5-13.4cm â€” MAM)' },
-    { value: 'RED', label: 'Red (<12.5cm â€” SAM)' }
+  { id: 'muac_cm', label: 'Estimated MUAC (confirm with tape) (cm)', type: 'number', placeholder: 'e.g. 13.5' },
+  { id: 'muac_color', label: 'Estimated MUAC (confirm with tape) Color Zone', type: 'select', options: [
+    { value: 'GREEN', label: 'Green (≥13.5cm — Normal)' },
+    { value: 'YELLOW', label: 'Yellow (12.5-13.4cm — MAM)' },
+    { value: 'RED', label: 'Red (<12.5cm — SAM)' }
   ]},
   { id: 'malnutritionGrade', label: 'AI Visual Malnutrition Grade', type: 'select', options: [
     { value: 'NORMAL', label: 'Normal' },

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuthStore } from '../../stores/authStore';
 import { apiFetch, showToast } from '../../utils/api';
 import { useTx } from '../../context/TranslationContext';
+import AiScreeningDisclaimer from '../../components/AiScreeningDisclaimer';
 
 // ─── Risk colour config ───────────────────────────────────────────────────────
 const RISK_CONFIG = {
@@ -188,6 +189,7 @@ const DetailSheet = ({ item, ashaId, ashaName, headId, onClose }) => {
               transition: 'width 0.6s ease-out',
             }} />
           </div>
+          <AiScreeningDisclaimer className="mt-3" />
         </div>
 
         {/* Primary finding */}
@@ -502,6 +504,8 @@ const PriorityList = () => {
           <span className={`material-symbols-outlined text-[16px] ${calculating ? 'animate-spin' : ''}`}>sync</span> {calculating ? tx('Calculating…', 'calculating') : tx('Refresh', 'refresh')}
         </button>
       </div>
+
+      <AiScreeningDisclaimer className="mb-4" />
 
       {/* Empty state */}
       {items.length === 0 ? (

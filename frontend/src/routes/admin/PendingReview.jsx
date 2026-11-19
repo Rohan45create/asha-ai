@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '../../stores/authStore';
 import { useTx } from '../../context/TranslationContext';
 import { apiFetch } from '../../utils/api';
+import AiScreeningDisclaimer from '../../components/AiScreeningDisclaimer';
 
 const typeBadge = {
   OCR_IMPORT:      { bg: 'bg-[#E3F2FD]', text: 'text-[#1565C0]', label: 'OCR Import' },
@@ -757,6 +758,7 @@ export default function PendingReview() {
                 {/* Past Visits — shown only for ANC/pregnancy reviews */}
                 {selectedReview.collection === 'pregnancies' && (
                   <div className="mt-4 border-t border-[#D3D1C7] pt-4">
+                    <AiScreeningDisclaimer className="mb-3" />
                     <button
                       onClick={() => setVisitHistoryOpen(v => !v)}
                       className="flex items-center gap-2 w-full text-left"

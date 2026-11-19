@@ -3,6 +3,7 @@ import { useConversationalVad } from '../hooks/useConversationalVad';
 import { useConversationalTts } from '../hooks/useConversationalTts';
 import { apiFetch, showToast } from '../utils/api';
 import { useTranslation } from 'react-i18next';
+import AiScreeningDisclaimer from './AiScreeningDisclaimer';
 
 export default function ConversationalAgentFAB({ role = 'ASHA' }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -161,6 +162,9 @@ export default function ConversationalAgentFAB({ role = 'ASHA' }) {
           )}
           <div className="mt-3 text-xs text-gray-500">
             {role === 'ASHA' ? t('Tip: Try "Fill a family survey" or "Export a report"') : t('Tip: Try "Draft a new survey"')}
+          </div>
+          <div className="mt-2 pt-2 border-t border-gray-100">
+            <AiScreeningDisclaimer variant="inline" className="text-[10px]" />
           </div>
         </div>
       )}
