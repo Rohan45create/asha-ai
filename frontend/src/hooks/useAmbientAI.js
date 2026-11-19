@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { BASE_URL } from '../utils/api';
 
 /**
  * useAmbientAI Hook
@@ -54,7 +55,7 @@ const useAmbientAI = (module = 'family_survey') => {
       }
 
       const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const backendHost = (import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL)?.replace(/^https?:\/\//, '') || 'localhost:8000';
+      const backendHost = BASE_URL ? BASE_URL.replace(/^https?:\/\//, '') : 'localhost:8000';
       const wsUrl = `${wsProtocol}//${backendHost}/ws/ambient?token=${token}&module=${module}`;
 
       const ws = new WebSocket(wsUrl);

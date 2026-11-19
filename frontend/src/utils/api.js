@@ -1,15 +1,29 @@
 import { useAuthStore } from '../stores/authStore';
 
-const formatBackendUrl = (url) => {
-  if (!url) return 'http://localhost:8080';
+export const PROD_BACKEND_URL = 'https://ashaai-back-exeja6c4gadqgefj.centralindia-01.azurewebsites.net';
+
+export const formatBackendUrl = (url) => {
+  const isBrowser = typeof window !== 'undefined';
+  const isRemoteHost = isBrowser && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+  if (!url) {
+    return isRemoteHost ? PROD_BACKEND_URL : 'http://localhost:8080';
+  }
+
   let cleanUrl = url.trim().replace(/\/+$/, '');
+
+  // Guard: if build baked in localhost but app is running on remote/deployed domain
+  if (isRemoteHost && (cleanUrl.includes('localhost') || cleanUrl.includes('127.0.0.1'))) {
+    return PROD_BACKEND_URL;
+  }
+
   if (!/^https?:\/\//i.test(cleanUrl) && !cleanUrl.startsWith('localhost') && !cleanUrl.startsWith('127.0.0.1')) {
     return `https://${cleanUrl}`;
   }
   return cleanUrl;
 };
 
-const BASE_URL = formatBackendUrl(import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL);
+export const BASE_URL = formatBackendUrl(import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL);
 
 export const showToast = (message, type = 'info') => {
   const existing = document.getElementById('global-toast');

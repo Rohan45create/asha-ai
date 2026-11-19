@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '../../stores/authStore';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow, format } from 'date-fns';
-import { apiFetch } from '../../utils/api';
+import { apiFetch, BASE_URL } from '../../utils/api';
 
 const FALLBACK_ASHA_IDS = [
   'asha_lata_001','asha_priya_002','asha_kavita_003','asha_meena_004','asha_anita_005'
 ];
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+const BACKEND_URL = BASE_URL;
 
 const LoadingSkeleton = () => (
   <div className="space-y-4">

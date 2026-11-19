@@ -1,16 +1,30 @@
 import { create } from 'zustand';
 
+export const PROD_BACKEND_URL = 'https://ashaai-back-exeja6c4gadqgefj.centralindia-01.azurewebsites.net';
+
 // Backend URL configuration - injected at build time via VITE_BACKEND_URL or VITE_API_BASE_URL
-const formatBackendUrl = (url) => {
-  if (!url) return 'http://localhost:8080';
+export const formatBackendUrl = (url) => {
+  const isBrowser = typeof window !== 'undefined';
+  const isRemoteHost = isBrowser && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+
+  if (!url) {
+    return isRemoteHost ? PROD_BACKEND_URL : 'http://localhost:8080';
+  }
+
   let cleanUrl = url.trim().replace(/\/+$/, '');
+
+  // Guard: if build baked in localhost but app is running on remote/deployed domain
+  if (isRemoteHost && (cleanUrl.includes('localhost') || cleanUrl.includes('127.0.0.1'))) {
+    return PROD_BACKEND_URL;
+  }
+
   if (!/^https?:\/\//i.test(cleanUrl) && !cleanUrl.startsWith('localhost') && !cleanUrl.startsWith('127.0.0.1')) {
     return `https://${cleanUrl}`;
   }
   return cleanUrl;
 };
 
-const BASE_URL = formatBackendUrl(import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL);
+export const BASE_URL = formatBackendUrl(import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL);
 
 export const useConfigStore = create((set) => ({
   supabaseUrl: null,
@@ -23,27 +37,41 @@ export const useConfigStore = create((set) => ({
   error: null,
 
   fetchConfig: async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/api/public-config`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch public configuration');
+    const targetUrl = formatBackendUrl(import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL);
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (attempts < maxAttempts) {
+      attempts++;
+      try {
+        const response = await fetch(`${targetUrl}/api/public-config`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch public configuration (HTTP ${response.status})`);
+        }
+        
+        const config = await response.json();
+        
+        set({
+          supabaseUrl: config.supabaseUrl,
+          supabaseAnonKey: config.supabaseAnonKey,
+          googleMapsApiKey: config.googleMapsApiKey,
+          ngoFormNewUrl: config.ngoFormNewUrl,
+          ngoFormExistingUrl: config.ngoFormExistingUrl,
+          ngoFormRescheduleUrl: config.ngoFormRescheduleUrl,
+          isConfigLoaded: true,
+          error: null,
+        });
+        return;
+      } catch (error) {
+        console.warn(`[ConfigStore] Load attempt ${attempts}/${maxAttempts} failed:`, error);
+        if (attempts >= maxAttempts) {
+          console.error('[ConfigStore] All configuration load attempts failed:', error);
+          set({ error: error.message, isConfigLoaded: false });
+        } else {
+          // Wait 1.5s before retry (allows Azure F1 app to wake up from cold start)
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+        }
       }
-      
-      const config = await response.json();
-      
-      set({
-        supabaseUrl: config.supabaseUrl,
-        supabaseAnonKey: config.supabaseAnonKey,
-        googleMapsApiKey: config.googleMapsApiKey,
-        ngoFormNewUrl: config.ngoFormNewUrl,
-        ngoFormExistingUrl: config.ngoFormExistingUrl,
-        ngoFormRescheduleUrl: config.ngoFormRescheduleUrl,
-        isConfigLoaded: true,
-        error: null,
-      });
-    } catch (error) {
-      console.error('Configuration load error:', error);
-      set({ error: error.message, isConfigLoaded: false });
     }
   }
 }));

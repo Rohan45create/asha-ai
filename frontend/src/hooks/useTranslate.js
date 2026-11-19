@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguageStore } from '../stores/languageStore';
 import { useAuthStore } from '../stores/authStore';
+import { BASE_URL } from '../utils/api';
 
 // ── In-memory cache per language (survives component re-renders within session)
 const _memCache = {};   // { "mr:Save Record": "जतन करा", ... }
@@ -67,7 +68,7 @@ async function flushBatch(lang, getToken) {
   try {
     const token = await getToken();
     const res = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/api/translate/batch`,
+      `${BASE_URL}/api/translate/batch`,
       {
         method: 'POST',
         headers: {

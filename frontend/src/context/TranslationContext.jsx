@@ -18,6 +18,7 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import { useLanguageStore } from '../stores/languageStore';
 import { useAuthStore } from '../stores/authStore';
+import { BASE_URL } from '../utils/api';
 import i18n from '../i18n';
 
 // ── localStorage-backed cache ─────────────────────────────────────────────────
@@ -78,7 +79,7 @@ export function TranslationProvider({ children }) {
     try {
       const token = userRef.current ? await userRef.current.getIdToken() : '';
       const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/translate/batch`,
+        `${BASE_URL}/api/translate/batch`,
         {
           method: 'POST',
           headers: {
