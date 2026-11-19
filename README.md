@@ -463,6 +463,11 @@ These shaped AshaAI's data model, module list, and feature priorities.
 - [Community-Based Management of Acute Malnutrition — FHI360 Module 2](https://www.fhi360.org/wp-content/uploads/2012/12/CMAM_Training_Mod2_ENGLISH_Nov2008.pdf) — SAM/MAM clinical signs (bilateral pitting oedema, MUAC bands)
 - [Mission Poshan 2.0 / Saksham Anganwadi — Ministry of Women & Child Development](https://wcd.gov.in/offerings/nutrition-mission-saksham-anganwadi-and-poshan-2-0-mission-saksham-anganwadi-poshan-2-0) — official NRC referral and nutrition tracking framework AshaAI's referral pipeline aligns with
 
+### AI Malnutrition Scanner — Architecture Findings & Verification Notes
+- **Arm Measurement Landmark Proxy**: In `ai-service/services/gemini_service.py` (lines 213-226), the camera measurement computes the Euclidean pixel distance between MediaPipe Pose landmarks `LEFT_ELBOW` (13) and `LEFT_WRIST` (15) as a proxy for arm diameter / circumference (taking 1/3 of the forearm segment). Note that this is an anatomical landmark proxy distance and not the true physical mid-upper-arm circumference (MUAC) measured with a Shakir tape. Consequently, all UI interfaces clearly designate this as "Estimated MUAC (confirm with tape)" and display an explicit screening disclaimer.
+- **Reference Coin Scaling Constant**: In `ai-service/services/gemini_service.py` (line 248), the reference coin diameter is hardcoded as `25.0 mm` with a code comment describing it as "Indian 1 Rupee coin diameter". Concurrently, the frontend guidance prompts the user to place a standard ₹5 coin. Per architectural guardrails, no underlying constants or numbers are altered, but this discrepancy is documented for clinicians, researchers, and evaluators.
+- **Validation Script**: A standalone validation utility is provided at [`scripts/validate_muac.py`](scripts/validate_muac.py) (accompanied by sample data [`scripts/sample_muac_validation.csv`](scripts/sample_muac_validation.csv)) to compute Bland-Altman 95% Limits of Agreement, MAE, bias, and SAM/MAM sensitivity and specificity against clinical tape readings.
+
 ### Platform & AI Documentation
 - [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/index.html) — backend framework
 - [Supabase Documentation](https://supabase.com/docs) — Postgres, Auth, Row-Level Security, Storage
