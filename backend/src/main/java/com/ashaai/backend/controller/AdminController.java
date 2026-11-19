@@ -26,6 +26,24 @@ public class AdminController {
         riskEngineService.runNightlyRiskScoring();
         return ResponseEntity.ok("Risk engine executed successfully.");
     }
+
+    /**
+     * Desktop Care Loop Coordination View — Supervisor only.
+     * Evaluates open referrals for explainable, deterministic rule-based drop-off risk.
+     */
+    @GetMapping("/care-loop")
+    public ResponseEntity<?> getCareLoop(
+            @org.springframework.web.bind.annotation.RequestParam(value = "includeClosed", defaultValue = "false") boolean includeClosed,
+            org.springframework.security.core.Authentication authentication) {
+        if (!(authentication instanceof com.ashaai.backend.security.AshaAuthenticationToken auth) || auth.getAshaHeadId() == null) {
+            return ResponseEntity.status(403).body(java.util.Map.of(
+                "error", "Forbidden",
+                "message", "Supervisor access required",
+                "details", "Only supervisors (asha_heads) can access the care-loop coordination view"
+            ));
+        }
+        return ResponseEntity.ok(adminService.getCareLoopCases(auth.getAshaHeadId(), includeClosed));
+    }
     @GetMapping("/reports")
     public ResponseEntity<List<java.util.Map<String, Object>>> getReports(org.springframework.security.core.Authentication authentication) { com.ashaai.backend.security.AshaAuthenticationToken auth = (com.ashaai.backend.security.AshaAuthenticationToken) authentication;
         if (auth.getAshaHeadId() == null) return ResponseEntity.status(403).build();

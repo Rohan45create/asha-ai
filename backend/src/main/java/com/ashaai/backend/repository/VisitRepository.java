@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, UUID> {
+    java.util.List<Visit> findByChild_IdOrderByVisitDateDesc(UUID childId);
 }

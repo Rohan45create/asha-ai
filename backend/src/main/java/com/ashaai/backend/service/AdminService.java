@@ -3,8 +3,11 @@ package com.ashaai.backend.service;
 import com.ashaai.backend.entity.*;
 import com.ashaai.backend.repository.*;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +36,8 @@ public class AdminService {
     private final PendingReviewRepository pendingReviewRepository;
     private final SurveySubmissionRepository surveySubmissionRepository;
     private final ModuleSubmissionRepository moduleSubmissionRepository;
+    private final NgoAppointmentRepository ngoAppointmentRepository;
+    private final EditHistoryRepository editHistoryRepository;
 
     public AdminService(
             AshaRepository ashaRepository,
@@ -51,7 +56,9 @@ public class AdminService {
             AshaHeadRepository ashaHeadRepository,
             PendingReviewRepository pendingReviewRepository,
             SurveySubmissionRepository surveySubmissionRepository,
-            ModuleSubmissionRepository moduleSubmissionRepository
+            ModuleSubmissionRepository moduleSubmissionRepository,
+            NgoAppointmentRepository ngoAppointmentRepository,
+            EditHistoryRepository editHistoryRepository
     ) {
         this.ashaRepository = ashaRepository;
         this.householdRepository = householdRepository;
@@ -70,6 +77,8 @@ public class AdminService {
         this.pendingReviewRepository = pendingReviewRepository;
         this.surveySubmissionRepository = surveySubmissionRepository;
         this.moduleSubmissionRepository = moduleSubmissionRepository;
+        this.ngoAppointmentRepository = ngoAppointmentRepository;
+        this.editHistoryRepository = editHistoryRepository;
     }
 
     private boolean isAshaUnderHead(Asha asha, UUID headId) {
@@ -752,5 +761,186 @@ public class AdminService {
         }
 
         return records;
+    }
+
+    /**
+     * Care Loop coordination view for supervisors (asha_heads).
+     * Read-only, composed from existing tables without any schema changes.
+     * Evaluates explainable, deterministic rule-based drop-off risk for open referrals.
+     *
+     * Rules (deterministic, non-AI):
+     * 1. No appointment booked after 7 days since flagged
+     * 2. Appointment rescheduled, cancelled, or missed
+     * 3. Referral rejected
+     * 4. No ASHA home visit recorded in 14 days
+     */
+    public List<Map<String, Object>> getCareLoopCases(UUID headId, boolean includeClosed) {
+        List<Referral> referrals = referralRepository.findByAsha_Head_Id(headId);
+        if (referrals.isEmpty()) {
+            referrals = referralRepository.findAll().stream()
+                    .filter(r -> r.getAsha() == null || r.getAsha().getHead() == null || r.getAsha().getHead().getId().equals(headId))
+                    .toList();
+        }
+
+        LocalDate today = LocalDate.now();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (Referral referral : referrals) {
+            String status = referral.getStatus() != null ? referral.getStatus() : "pending";
+            if (!includeClosed && "closed".equalsIgnoreCase(status)) {
+                continue;
+            }
+
+            LocalDate flaggedDate = referral.getReferredDate() != null
+                    ? referral.getReferredDate().toLocalDate()
+                    : today;
+            long daysSinceFlagged = Math.max(0, java.time.temporal.ChronoUnit.DAYS.between(flaggedDate, today));
+
+            // Owner (ASHA via existing relations) - sensitive data (full phone/Aadhaar) excluded
+            Map<String, Object> owner = new HashMap<>();
+            if (referral.getAsha() != null) {
+                owner.put("id", referral.getAsha().getId().toString());
+                owner.put("name", referral.getAsha().getName());
+            } else {
+                owner.put("id", null);
+                owner.put("name", "Unassigned ASHA");
+            }
+
+            // Appointments check
+            List<NgoAppointment> appts = ngoAppointmentRepository.findByReferral_IdOrderByScheduledAtDesc(referral.getId());
+            boolean appointmentExists = !appts.isEmpty();
+            NgoAppointment latestAppt = appointmentExists ? appts.get(0) : null;
+
+            // Overdue days calculation
+            long overdueDays = 0;
+            if (referral.getFollowUpDueDate() != null && referral.getFollowUpDueDate().isBefore(today)) {
+                overdueDays = java.time.temporal.ChronoUnit.DAYS.between(referral.getFollowUpDueDate(), today);
+            } else if ("pending".equalsIgnoreCase(status) && daysSinceFlagged > 7) {
+                overdueDays = daysSinceFlagged - 7;
+            }
+
+            // Deterministic rule evaluation
+            List<String> reasons = new ArrayList<>();
+
+            // Rule 1: no appointment booked after 7 days
+            if (daysSinceFlagged > 7 && !appointmentExists) {
+                reasons.add("no appointment booked after 7 days");
+            }
+
+            // Rule 2: appointment rescheduled or missed
+            if (appointmentExists && latestAppt != null) {
+                String apptStatus = latestAppt.getStatus() != null ? latestAppt.getStatus().toLowerCase() : "";
+                boolean rescheduledOrMissed = "rescheduled".equals(apptStatus) || "missed".equals(apptStatus) || "cancelled".equals(apptStatus);
+                boolean overdueScheduled = "scheduled".equals(apptStatus) && latestAppt.getScheduledAt() != null
+                        && latestAppt.getScheduledAt().isBefore(java.time.OffsetDateTime.now());
+                if (rescheduledOrMissed || overdueScheduled) {
+                    reasons.add("appointment rescheduled or missed");
+                }
+            }
+
+            // Rule 3: referral rejected
+            if ("rejected".equalsIgnoreCase(status) || "declined".equalsIgnoreCase(status)) {
+                reasons.add("referral rejected");
+            }
+
+            // Rule 4: no ASHA visit in 14 days
+            if (referral.getChild() != null) {
+                List<Visit> childVisits = visitRepository.findByChild_IdOrderByVisitDateDesc(referral.getChild().getId());
+                if (childVisits.isEmpty()) {
+                    if (daysSinceFlagged >= 14) {
+                        reasons.add("no ASHA visit in 14 days");
+                    }
+                } else {
+                    Visit lastVisit = childVisits.get(0);
+                    if (lastVisit.getVisitDate() != null) {
+                        long daysSinceVisit = java.time.temporal.ChronoUnit.DAYS.between(lastVisit.getVisitDate(), today);
+                        if (daysSinceVisit > 14) {
+                            reasons.add("no ASHA visit in 14 days");
+                        }
+                    }
+                }
+            } else if (daysSinceFlagged >= 14) {
+                reasons.add("no ASHA visit in 14 days");
+            }
+
+            // Deterministic rule-based drop-off risk scoring:
+            // - HIGH: 2 or more drop-off rules triggered, OR referral rejected, OR no appointment booked after 7 days
+            // - MEDIUM: 1 drop-off rule triggered
+            // - LOW: 0 drop-off rules triggered
+            String ruleBasedDropOffRisk;
+            if (reasons.contains("referral rejected") || reasons.contains("no appointment booked after 7 days") || reasons.size() >= 2) {
+                ruleBasedDropOffRisk = "HIGH";
+            } else if (reasons.size() == 1) {
+                ruleBasedDropOffRisk = "MEDIUM";
+            } else {
+                ruleBasedDropOffRisk = "LOW";
+            }
+
+            // Timeline details from EditHistory and visits (no Aadhaar, ABHA, phone or exact door numbers)
+            List<Map<String, Object>> historyTimeline = new ArrayList<>();
+            List<EditHistory> historyList = editHistoryRepository.findByRecordIdOrderByEditedAtDesc(referral.getId());
+            for (EditHistory eh : historyList) {
+                Map<String, Object> hm = new HashMap<>();
+                hm.put("id", eh.getId().toString());
+                hm.put("editedAt", eh.getEditedAt() != null ? eh.getEditedAt().toString() : null);
+                hm.put("fieldName", eh.getFieldName());
+                hm.put("oldValue", eh.getOldValue());
+                hm.put("newValue", eh.getNewValue());
+                hm.put("reason", eh.getReason());
+                historyTimeline.add(hm);
+            }
+
+            List<Map<String, Object>> apptsTimeline = new ArrayList<>();
+            for (NgoAppointment na : appts) {
+                Map<String, Object> am = new HashMap<>();
+                am.put("id", na.getId().toString());
+                am.put("scheduledAt", na.getScheduledAt() != null ? na.getScheduledAt().toString() : null);
+                am.put("status", na.getStatus());
+                am.put("purpose", na.getPurpose());
+                am.put("ngoName", na.getNgo() != null ? na.getNgo().getName() : "NRC / Health Partner");
+                apptsTimeline.add(am);
+            }
+
+            List<Map<String, Object>> visitsTimeline = new ArrayList<>();
+            if (referral.getChild() != null) {
+                List<Visit> childVisits = visitRepository.findByChild_IdOrderByVisitDateDesc(referral.getChild().getId());
+                for (Visit v : childVisits) {
+                    Map<String, Object> vm = new HashMap<>();
+                    vm.put("id", v.getId().toString());
+                    vm.put("visitDate", v.getVisitDate() != null ? v.getVisitDate().toString() : null);
+                    vm.put("notes", v.getNotes());
+                    vm.put("actionTaken", v.getActionTaken());
+                    vm.put("muacMm", v.getMuacMm());
+                    vm.put("weightKg", v.getWeightKg());
+                    visitsTimeline.add(vm);
+                }
+            }
+
+            Map<String, Object> row = new HashMap<>();
+            row.put("id", referral.getId().toString());
+            row.put("status", status);
+            row.put("reason", referral.getReason() != null ? referral.getReason() : "Malnutrition NRC Referral");
+            row.put("nrcName", referral.getNrcName());
+            row.put("childId", referral.getChildId() != null ? referral.getChildId().toString() : null);
+            row.put("childName", referral.getChildName());
+            row.put("village", referral.getVillage());
+            row.put("daysSinceFlagged", daysSinceFlagged);
+            row.put("owner", owner);
+            row.put("appointmentExists", appointmentExists);
+            row.put("appointmentStatus", latestAppt != null ? latestAppt.getStatus() : null);
+            row.put("appointmentScheduledAt", latestAppt != null && latestAppt.getScheduledAt() != null ? latestAppt.getScheduledAt().toString() : null);
+            row.put("overdueDays", overdueDays);
+            row.put("followUpDueDate", referral.getFollowUpDueDate() != null ? referral.getFollowUpDueDate().toString() : null);
+            row.put("referredDate", referral.getReferredDate() != null ? referral.getReferredDate().toString() : null);
+            row.put("ruleBasedDropOffRisk", ruleBasedDropOffRisk);
+            row.put("reasons", reasons);
+            row.put("history", historyTimeline);
+            row.put("appointments", apptsTimeline);
+            row.put("visits", visitsTimeline);
+
+            result.add(row);
+        }
+
+        return result;
     }
 }

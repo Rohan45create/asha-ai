@@ -42,6 +42,7 @@ const WorkerActivity = lazy(() => import('./routes/admin/WorkerActivity.jsx'));
 const PendingReview = lazy(() => import('./routes/admin/PendingReview.jsx'));
 const Reports = lazy(() => import('./routes/admin/Reports.jsx'));
 const AdminReferrals = lazy(() => import('./routes/admin/Referrals.jsx'));
+const CareLoop = lazy(() => import('./routes/admin/CareLoop.jsx'));
 const NGOManagement = lazy(() => import('./routes/admin/NGOManagement.jsx'));
 
 import { useAuthStore } from './stores/authStore';
@@ -241,6 +242,7 @@ const App = () => {
               <Route path="/admin/map" element={<CoverageMap />} />
               <Route path="/admin/reports" element={<Reports />} />
               <Route path="/admin/referrals" element={<AdminReferrals />} />
+              <Route path="/admin/care-loop" element={<CareLoop />} />
               <Route path="/admin/ngos" element={<NGOManagement />} />
             </Route>
 

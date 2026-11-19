@@ -9,6 +9,8 @@ import java.util.UUID;
 @Repository
 public interface NgoAppointmentRepository extends JpaRepository<NgoAppointment, UUID> {
     java.util.List<NgoAppointment> findByNgo_Id(UUID ngoId);
+    java.util.List<NgoAppointment> findByReferral_Id(UUID referralId);
+    java.util.List<NgoAppointment> findByReferral_IdOrderByScheduledAtDesc(UUID referralId);
     java.util.List<NgoAppointment> findByReferral_Asha_IdAndScheduledAtGreaterThanEqualAndStatusNotOrderByScheduledAtAsc(UUID ashaId, java.time.OffsetDateTime time, String status);
 
     @org.springframework.data.jpa.repository.Query("SELECT a FROM NgoAppointment a LEFT JOIN a.referral r " +

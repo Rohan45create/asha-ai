@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface EditHistoryRepository extends JpaRepository<EditHistory, UUID> {
+    java.util.List<EditHistory> findByRecordIdOrderByEditedAtDesc(UUID recordId);
+    java.util.List<EditHistory> findByRecordId(UUID recordId);
 }
