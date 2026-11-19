@@ -153,11 +153,11 @@ Deploy in this order: ai-service, backend, frontend. Then point the NGO Apps Scr
 > [!IMPORTANT]
 > AshaAI is offline-first. It works without a connection and syncs when the phone is back online.
 
-1. Open the live prototype: [https://orange-plant-04dddc700.4.azurestaticapps.net](https://orange-plant-04dddc700.4.azurestaticapps.net)
-2. ASHA worker login: phone number and OTP (test credentials available).
+1. Open the live prototype: [https://lemon-sand-022ee5b00.8.azurestaticapps.net](https://lemon-sand-022ee5b00.8.azurestaticapps.net)
+2. ASHA worker login: phone number and OTP (test credentials available on web app).
 3. Admin and supervisor login:
    Email: *admin@asha.gov.in*
-   Password: *(provided in the demo video or on request)*
+   Password: *(provided in the demo video or web app)*
 
 ## Initial Survey and Problem Statement Research
 
