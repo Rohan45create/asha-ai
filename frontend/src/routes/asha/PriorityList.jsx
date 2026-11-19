@@ -18,11 +18,32 @@ const DetailSheet = ({ item, ashaId, ashaName, headId, onClose }) => {
   const [sending, setSending]     = useState(false);
   const [sent, setSent]           = useState(item._referralSent || false);
   const [referralId, setReferralId] = useState(item._referralId || null);
+  const [referralStatus, setReferralStatus] = useState(item._referralStatus || null);
+  const [requestingClosure, setRequestingClosure] = useState(false);
   const [error, setError]         = useState('');
   const [journeyLoading, setJourneyLoading] = useState(false);
   const [journeyError, setJourneyError]     = useState('');
 
   const canRefer = ['CRITICAL', 'HIGH'].includes(item.risk_level) && !sent;
+
+  const requestClosure = async () => {
+    if (!referralId) return;
+    setRequestingClosure(true);
+    setError('');
+    try {
+      await apiFetch(`/api/referrals/${referralId}/request-closure`, {
+        method: 'POST',
+        body: JSON.stringify({ notes: 'Child observed recovering; ASHA requested supervisor clinical closure verification' })
+      });
+      setReferralStatus('awaiting_verification');
+      item._referralStatus = 'awaiting_verification';
+    } catch (e) {
+      console.error('[PriorityList] requestClosure error:', e);
+      setError('Failed to request closure. Please try again.');
+    } finally {
+      setRequestingClosure(false);
+    }
+  };
 
   const sendReferral = async () => {
     setSending(true);
@@ -217,17 +238,59 @@ const DetailSheet = ({ item, ashaId, ashaName, headId, onClose }) => {
 
         {/* Referral button */}
         {sent ? (
-          <div style={{
-            background: '#EAF3DE', border: '1px solid #1D9E75',
-            borderRadius: '14px', padding: '16px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-          }}>
-            <span className="material-symbols-outlined text-[#1D9E75] text-[24px]">check_circle</span>
-            <div>
-              <p style={{ fontWeight: '700', color: '#085041', fontSize: '15px' }}>{tx('NRC Referral Sent')}</p>
-              <p style={{ fontSize: '12px', color: '#555' }}>{tx('Awaiting admin review')}</p>
+          referralStatus === 'closed' ? (
+            <div style={{
+              background: '#F1F5F9', border: '1px solid #CBD5E1',
+              borderRadius: '14px', padding: '16px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            }}>
+              <span className="material-symbols-outlined text-[#16A34A] text-[24px]">verified</span>
+              <div>
+                <p style={{ fontWeight: '700', color: '#1E293B', fontSize: '15px', margin: 0 }}>{tx('Closed (Supervisor Verified)')}</p>
+                <p style={{ fontSize: '12px', color: '#64748B', margin: '2px 0 0' }}>{tx('Care loop completed with clinical evidence')}</p>
+              </div>
             </div>
-          </div>
+          ) : referralStatus === 'awaiting_verification' ? (
+            <div style={{
+              background: '#FEF3C7', border: '1px solid #F59E0B',
+              borderRadius: '14px', padding: '16px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            }}>
+              <span className="material-symbols-outlined text-[#B45309] text-[24px]">hourglass_top</span>
+              <div>
+                <p style={{ fontWeight: '700', color: '#92400E', fontSize: '15px', margin: 0 }}>{tx('Awaiting supervisor verification')}</p>
+                <p style={{ fontSize: '12px', color: '#B45309', margin: '2px 0 0' }}>{tx('Closure requested; pending supervisor verification')}</p>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{
+                background: '#EAF3DE', border: '1px solid #1D9E75',
+                borderRadius: '14px', padding: '14px 16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              }}>
+                <span className="material-symbols-outlined text-[#1D9E75] text-[24px]">check_circle</span>
+                <div>
+                  <p style={{ fontWeight: '700', color: '#085041', fontSize: '15px', margin: 0 }}>{tx('NRC Referral Sent')}</p>
+                  <p style={{ fontSize: '12px', color: '#555', margin: '2px 0 0' }}>{referralStatus ? `Status: ${referralStatus}` : tx('Awaiting admin review')}</p>
+                </div>
+              </div>
+              <button
+                onClick={requestClosure}
+                disabled={requestingClosure}
+                style={{
+                  width: '100%', padding: '12px',
+                  background: '#fff', border: '1.5px solid #085041',
+                  borderRadius: '12px', color: '#085041',
+                  fontSize: '13px', fontWeight: '700', cursor: requestingClosure ? 'not-allowed' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>task_alt</span>
+                {requestingClosure ? tx('Requesting…') : tx('Request Closure (Needs Supervisor Verification)')}
+              </button>
+            </div>
+          )
         ) : canRefer ? (
           <button
             onClick={sendReferral}
@@ -339,15 +402,18 @@ const PriorityList = () => {
     try {
       const referrals = await apiFetch('/api/referrals');
       if (!Array.isArray(referrals)) return children;
-      const sentIds = {};
+      const sentMap = {};
       referrals.forEach(d => {
         const childId = d.child?.id || d.childId;
-        if (childId) sentIds[childId] = d.id;
+        if (childId) {
+          sentMap[childId] = { id: d.id, status: d.status };
+        }
       });
       return children.map(c => ({
         ...c,
-        _referralSent: !!sentIds[c.id],
-        _referralId:   sentIds[c.id] || null,
+        _referralSent: !!sentMap[c.id],
+        _referralId:   sentMap[c.id]?.id || null,
+        _referralStatus: sentMap[c.id]?.status || null,
       }));
     } catch (e) {
       console.warn('[PriorityList] Failed to load referrals:', e);
@@ -488,10 +554,20 @@ const PriorityList = () => {
                     {item._referralSent && (
                       <span style={{
                         fontSize: '10px', fontWeight: '700',
-                        background: '#EAF3DE', color: '#085041',
-                        padding: '1px 6px', borderRadius: '8px',
-                        display: 'inline-flex', alignItems: 'center', gap: '2px'
-                      }}><span className="material-symbols-outlined text-[12px]">check</span> {tx('Referred', 'referred')}</span>
+                        background: item._referralStatus === 'closed' ? '#F1F5F9' : item._referralStatus === 'awaiting_verification' ? '#FEF3C7' : '#EAF3DE',
+                        color: item._referralStatus === 'closed' ? '#334155' : item._referralStatus === 'awaiting_verification' ? '#92400E' : '#085041',
+                        padding: '2px 8px', borderRadius: '8px',
+                        display: 'inline-flex', alignItems: 'center', gap: '3px'
+                      }}>
+                        <span className="material-symbols-outlined text-[12px]">
+                          {item._referralStatus === 'closed' ? 'verified' : item._referralStatus === 'awaiting_verification' ? 'hourglass_top' : 'check'}
+                        </span>
+                        {item._referralStatus === 'closed'
+                          ? tx('Closed (Verified)')
+                          : item._referralStatus === 'awaiting_verification'
+                          ? tx('Awaiting supervisor verification')
+                          : tx('Referred', 'referred')}
+                      </span>
                     )}
                   </div>
                   <p style={{ fontSize: '12px', color: '#555' }}>

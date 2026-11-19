@@ -6,14 +6,23 @@ import { useTx } from '../../context/TranslationContext';
 // Status i18n key map — instant offline translation via JSON
 const STATUS_I18N = {
   'Pending': 'pending',
+  'pending': 'pending',
   'Admitted': 'admitted',
+  'admitted': 'admitted',
   'Discharged': 'discharged',
+  'discharged': 'discharged',
   'Follow-up Due': 'follow_up_due',
+  'follow_up_due': 'follow_up_due',
   'Rejected': 'rejected',
+  'rejected': 'rejected',
+  'Awaiting Verification': 'awaiting_supervisor_verification',
+  'awaiting_verification': 'awaiting_supervisor_verification',
+  'Closed': 'closed_supervisor_verified',
+  'closed': 'closed_supervisor_verified',
   'All': 'all',
 };
 
-// ─── Status config (matching existing "Pending","Admitted","Discharged","Follow-up Due") ──
+// ─── Status config (matching allowed database status values) ──
 const STATUS_CONFIG = {
   'Pending':        { label: 'Pending Review', color: '#BA7517', bg: '#FAEEDA', icon: 'pending_actions' },
   'pending':        { label: 'Pending Review', color: '#BA7517', bg: '#FAEEDA', icon: 'pending_actions' },
@@ -25,13 +34,169 @@ const STATUS_CONFIG = {
   'follow_up_due':  { label: 'Follow-up Due',   color: '#E24B4A', bg: '#FCEBEB', icon: 'calendar_today' },
   'Rejected':       { label: 'Rejected',         color: '#E24B4A', bg: '#FCEBEB', icon: 'cancel' },
   'rejected':       { label: 'Rejected',         color: '#E24B4A', bg: '#FCEBEB', icon: 'cancel' },
+  'Awaiting Verification': { label: 'Awaiting Verification', color: '#B45309', bg: '#FEF3C7', icon: 'hourglass_top' },
+  'awaiting_verification': { label: 'Awaiting Verification', color: '#B45309', bg: '#FEF3C7', icon: 'hourglass_top' },
+  'Closed':         { label: 'Closed (Verified)', color: '#334155', bg: '#F1F5F9', icon: 'verified' },
+  'closed':         { label: 'Closed (Verified)', color: '#334155', bg: '#F1F5F9', icon: 'verified' },
 };
+
+const EDITABLE_STATUS_OPTIONS = [
+  'Pending',
+  'Admitted',
+  'Discharged',
+  'Follow-up Due',
+  'Rejected'
+];
 
 const RISK_CONFIG = {
   CRITICAL: { color: '#E24B4A', bg: '#FCEBEB' },
   HIGH:     { color: '#BA7517', bg: '#FAEEDA' },
   MEDIUM:   { color: '#185FA5', bg: '#E6F1FB' },
   LOW:      { color: '#27500A', bg: '#EAF3DE' },
+};
+
+// ─── Supervisor "Verify & Close" Modal with Required Clinical Evidence ────────
+const VerifyAndCloseModal = ({ referral, onClose, onClosed }) => {
+  const [evidence, setEvidence] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const tx = useTx();
+
+  const handleClose = async () => {
+    if (evidence.trim().length < 10) {
+      setError('Clinical evidence note is mandatory and must be at least 10 characters.');
+      return;
+    }
+
+    setSaving(true);
+    setError('');
+    try {
+      const res = await apiFetch(`/api/referrals/${referral.id}/close`, {
+        method: 'POST',
+        body: JSON.stringify({ evidence: evidence.trim() })
+      });
+
+      if (onClosed) {
+        onClosed(res?.referral || { ...referral, status: 'closed' });
+      }
+      onClose();
+    } catch (e) {
+      console.error('[VerifyAndCloseModal] closure error:', e);
+      setError(e?.message || 'Failed to verify and close referral. Supervisor authorization and evidence are required.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0,
+        background: 'rgba(0,0,0,0.6)',
+        zIndex: 550,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: '#fff',
+          borderRadius: '20px',
+          padding: '24px',
+          width: '100%',
+          maxWidth: '520px',
+          boxShadow: '0 25px 65px rgba(0,0,0,0.25)',
+          animation: 'fadeIn 0.2s ease-out',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span className="material-symbols-outlined" style={{ color: '#085041', fontSize: '24px' }}>verified</span>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#1A1A18', margin: 0 }}>
+              {tx('Verify & Close Care Loop')}
+            </h3>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#888' }}>
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px' }}>
+          <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: '700', color: '#0F172A' }}>
+            {referral.childName}
+          </p>
+          <p style={{ margin: 0, fontSize: '12px', color: '#64748B' }}>
+            Assigned ASHA: <strong>{referral.ashaName || referral.ashaId}</strong> &middot; Current status: <strong>{referral.status}</strong>
+          </p>
+        </div>
+
+        <div style={{ background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: '10px', padding: '10px 12px', marginBottom: '16px', fontSize: '12px', color: '#92400E', display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: '18px', flexShrink: 0, marginTop: '1px' }}>shield</span>
+          <span>
+            <strong>Supervisor Clinical Guardrail:</strong> No care loop can close without supervisor verification and recorded clinical evidence.
+          </span>
+        </div>
+
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#334155', marginBottom: '6px', textTransform: 'uppercase' }}>
+          {tx('Clinical Evidence Note')} <span style={{ color: '#E24B4A' }}>*</span>
+        </label>
+        <textarea
+          value={evidence}
+          onChange={e => setEvidence(e.target.value)}
+          placeholder="e.g. Discharge summary #NRC-4812 verified. Child weight stabilized at 9.8 kg, MUAC improved to 128mm. In-person follow-up confirmed with mother on Nov 19."
+          rows={4}
+          style={{
+            width: '100%', padding: '12px',
+            border: '1.5px solid #CBD5E1', borderRadius: '10px',
+            fontSize: '13px', resize: 'vertical', outline: 'none',
+            fontFamily: 'inherit', marginBottom: '4px',
+            boxSizing: 'border-box',
+          }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '11px', color: evidence.trim().length >= 10 ? '#16A34A' : '#64748B' }}>
+          <span>Minimum 10 characters required</span>
+          <span>{evidence.trim().length} / 10 chars</span>
+        </div>
+
+        {error && (
+          <div style={{ background: '#FEE2E2', border: '1px solid #FCA5A5', color: '#B91C1C', padding: '10px 12px', borderRadius: '8px', fontSize: '12px', marginBottom: '16px' }}>
+            {error}
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={onClose}
+            style={{
+              flex: 1, padding: '12px',
+              background: '#fff', border: '1px solid #CBD5E1',
+              borderRadius: '12px', color: '#475569', cursor: 'pointer', fontSize: '14px', fontWeight: '600',
+            }}
+          >Cancel</button>
+          <button
+            onClick={handleClose}
+            disabled={saving || evidence.trim().length < 10}
+            style={{
+              flex: 2, padding: '12px',
+              background: evidence.trim().length >= 10 ? '#085041' : '#94A3B8',
+              border: 'none', borderRadius: '12px',
+              color: '#fff', fontWeight: '700',
+              cursor: (saving || evidence.trim().length < 10) ? 'not-allowed' : 'pointer',
+              fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+            }}
+          >
+            {saving ? (
+              <>{tx('Verifying & Closing…')}</>
+            ) : (
+              <><span className="material-symbols-outlined" style={{ fontSize: '16px' }}>verified</span> {tx('Verify & Close Referral')}</>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 // ─── Admin review modal ───────────────────────────────────────────────────────
@@ -64,11 +229,10 @@ const ReviewModal = ({ referral, onClose, onUpdated }) => {
     setSaving(true);
     setError('');
     try {
-      // Build update payload
       const payload = {
         status,
-        nrcName:   nrcName || null,
-        notes:     notes   || null,
+        nrcName: nrcName || null,
+        notes: notes || null,
       };
       const res = await apiFetch(`/api/referrals/${referral.id}`, {
         method: 'PUT',
@@ -158,89 +322,11 @@ const ReviewModal = ({ referral, onClose, onUpdated }) => {
                   padding: '3px 10px', borderRadius: '20px',
                 }}>{tx(referral.riskLevel, referral.riskLevel?.toLowerCase())}</span>
                 {referral.riskScore && (
-                  <p style={{ fontSize: '20px', fontWeight: '800', color: rCfg.color, marginTop: '6px' }}>
-                    {referral.riskScore}/100
-                  </p>
+                  <p style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>Score: {referral.riskScore}/100</p>
                 )}
               </div>
             )}
           </div>
-        </div>
-
-        {/* Full Child Info */}
-        {childData && (
-          <div style={{ marginTop: '16px', marginBottom: '16px', borderTop: '1px solid #D3D1C7', paddingTop: '16px' }}>
-            <h4 style={{ fontSize: '13px', fontWeight: '700', color: '#555', marginBottom: '8px', textTransform: 'uppercase' }}>
-              {tx('Child Full Record')}
-            </h4>
-            <div style={{ maxHeight: '200px', overflowY: 'auto', background: '#F9F9F9', padding: '12px', borderRadius: '10px', fontSize: '12px' }} className="custom-scrollbar">
-              {Object.entries(childData).map(([key, val]) => {
-                if (key === 'createdAt' || key === 'updatedAt' || key === 'ashaId' || key === 'householdId') return null;
-                let displayVal = val;
-                if (typeof val === 'boolean') displayVal = val ? 'Yes' : 'No';
-                if (val && typeof val === 'object' && val.seconds) {
-                  displayVal = new Date(val.seconds * 1000).toLocaleDateString();
-                }
-                if (typeof displayVal === 'string' || typeof displayVal === 'number') {
-                  return (
-                    <div key={key} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EAEAEA', padding: '4px 0' }}>
-                      <span style={{ color: '#777', textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                      <span style={{ fontWeight: '600', maxWidth: '60%', textAlign: 'right', wordBreak: 'break-word', color: '#1A1A18' }}>{String(displayVal)}</span>
-                    </div>
-                  );
-                }
-                return null;
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* NRC Name — admin fills this */}
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#555', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          <span className="material-symbols-outlined" style={{fontSize: '16px', verticalAlign: 'middle', marginRight: '4px'}}>local_hospital</span> {tx('NRC / Facility Name')} <span style={{ color: '#E24B4A' }}>*</span>
-        </label>
-        <input
-          type="text"
-          value={nrcName}
-          onChange={e => setNrcName(e.target.value)}
-          placeholder="e.g. District Hospital Beed NRC"
-          style={{
-            width: '100%', padding: '10px 12px',
-            border: '1px solid #D3D1C7', borderRadius: '10px',
-            fontSize: '14px', outline: 'none',
-            fontFamily: 'inherit', marginBottom: '16px',
-            boxSizing: 'border-box',
-          }}
-        />
-
-        {/* NGO Appointment Booking Toggle */}
-        <div style={{ marginBottom: '16px', background: '#F5F4EF', padding: '12px', borderRadius: '10px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontWeight: '700', fontSize: '13px', color: '#1A1A18' }}>
-            <input type="checkbox" checked={bookNgo} onChange={e => setBookNgo(e.target.checked)} style={{ width: '16px', height: '16px', accentColor: '#1D9E75' }} />
-            <span className="material-symbols-outlined" style={{fontSize: '18px', color: '#1D9E75'}}>event</span> {tx('Also Book NGO Visit for ASHA')}
-          </label>
-          
-          {bookNgo && (
-            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: '#555', marginBottom: '4px' }}>{tx('Select NGO')} *</label>
-                <select value={ngoId} onChange={e => setNgoId(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #D3D1C7' }}>
-                  <option value="">{tx('Select...')}</option>
-                  {ngos.map(n => <option key={n.id} value={n.id}>{n.name}</option>)}
-                </select>
-              </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: '#555', marginBottom: '4px' }}>{tx('Date')} *</label>
-                  <input type="date" value={apptDate} min={new Date().toISOString().split('T')[0]} onChange={e => setApptDate(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #D3D1C7', boxSizing: 'border-box' }} />
-                </div>
-                <div style={{ width: '100px' }}>
-                  <label style={{ display: 'block', fontSize: '11px', fontWeight: '600', color: '#555', marginBottom: '4px' }}>{tx('Time')} *</label>
-                  <input type="time" value={apptTime} onChange={e => setApptTime(e.target.value)} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #D3D1C7', boxSizing: 'border-box' }} />
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Status selector */}
@@ -248,28 +334,49 @@ const ReviewModal = ({ referral, onClose, onUpdated }) => {
           {tx('Update Status')}
         </label>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px' }}>
-          {Object.entries(STATUS_CONFIG).map(([key, cfg]) => (
-            <button
-              key={key}
-              onClick={() => setStatus(key)}
-              style={{
-                padding: '8px 4px',
-                borderRadius: '10px',
-                border: `2px solid ${status === key ? cfg.color : '#D3D1C7'}`,
-                background: status === key ? cfg.bg : '#fff',
-                color: status === key ? cfg.color : '#777',
-                fontSize: '11px',
-                fontWeight: status === key ? '700' : '500',
-                cursor: 'pointer',
-                transition: 'all 0.15s',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
-              }}
-            >
-              <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>{cfg.icon}</span>
-              {tx(cfg.label, STATUS_I18N[key])}
-            </button>
-          ))}
+          {EDITABLE_STATUS_OPTIONS.map(key => {
+            const cfg = STATUS_CONFIG[key];
+            return (
+              <button
+                key={key}
+                onClick={() => setStatus(key)}
+                style={{
+                  padding: '8px 4px',
+                  borderRadius: '10px',
+                  border: `2px solid ${status.toLowerCase() === key.toLowerCase() ? cfg.color : '#D3D1C7'}`,
+                  background: status.toLowerCase() === key.toLowerCase() ? cfg.bg : '#fff',
+                  color: status.toLowerCase() === key.toLowerCase() ? cfg.color : '#777',
+                  fontSize: '11px',
+                  fontWeight: status.toLowerCase() === key.toLowerCase() ? '700' : '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>{cfg.icon}</span>
+                {tx(cfg.label, STATUS_I18N[key])}
+              </button>
+            );
+          })}
         </div>
+
+        {/* NRC Name */}
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#555', marginBottom: '6px', textTransform: 'uppercase' }}>
+          {tx('NRC Facility Name')}
+        </label>
+        <input
+          type="text"
+          value={nrcName}
+          onChange={e => setNrcName(e.target.value)}
+          placeholder="e.g., District Hospital NRC, Solapur"
+          style={{
+            width: '100%', padding: '10px 12px',
+            border: '1px solid #D3D1C7', borderRadius: '10px',
+            fontSize: '13px', outline: 'none',
+            fontFamily: 'inherit', marginBottom: '16px',
+            boxSizing: 'border-box',
+          }}
+        />
 
         {/* Notes */}
         <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', color: '#555', marginBottom: '6px', textTransform: 'uppercase' }}>
@@ -328,9 +435,10 @@ export default function Referrals() {
   const [loading,   setLoading]   = useState(true);
   const [filter,    setFilter]    = useState('All');
   const [reviewing, setReviewing] = useState(null);
+  const [closingReferral, setClosingReferral] = useState(null);
   const tx = useTx();
 
-  const { headId, user } = useAuthStore();
+  const { headId } = useAuthStore();
 
   useEffect(() => {
     const fetchReferrals = async () => {
@@ -357,22 +465,38 @@ export default function Referrals() {
     fetchReferrals();
   }, [headId]);
 
-  const FILTERS = ['All', 'Pending', 'Admitted', 'Discharged', 'Follow-up Due', 'Rejected'];
+  const FILTERS = ['All', 'Awaiting Verification', 'Pending', 'Admitted', 'Discharged', 'Follow-up Due', 'Closed'];
   const isMatchStatus = (rStatus, target) => {
     if (!rStatus) return false;
-    if (rStatus.toLowerCase() === target.toLowerCase()) return true;
-    if (target === 'Follow-up Due' && rStatus.toLowerCase().includes('follow')) return true;
-    return false;
+    const rLower = rStatus.toLowerCase();
+    const tLower = target.toLowerCase();
+    if (tLower === 'awaiting verification') return rLower.includes('awaiting');
+    if (tLower === 'closed') return rLower === 'closed';
+    if (tLower === 'follow-up due') return rLower.includes('follow');
+    return rLower === tLower;
   };
+
   const filtered = filter === 'All' ? referrals : referrals.filter(r => isMatchStatus(r.status, filter));
   const pendingCount = referrals.filter(r => isMatchStatus(r.status, 'Pending')).length;
+  const awaitingCount = referrals.filter(r => isMatchStatus(r.status, 'Awaiting Verification')).length;
 
   return (
-    <div style={{ padding: '24px', maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ padding: '24px', maxWidth: '960px', margin: '0 auto' }}>
       {/* Header */}
       <div style={{ marginBottom: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <h1 style={{ fontSize: '24px', fontWeight: '800', color: '#1A1A18' }}>{tx('NRC Referrals', 'referrals')}</h1>
+          {awaitingCount > 0 && (
+            <span style={{
+              background: '#B45309', color: '#fff',
+              fontSize: '12px', fontWeight: '700',
+              padding: '2px 10px', borderRadius: '20px',
+              display: 'inline-flex', alignItems: 'center', gap: '4px'
+            }}>
+              <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>hourglass_top</span>
+              {awaitingCount} {tx('awaiting verification')}
+            </span>
+          )}
           {pendingCount > 0 && (
             <span style={{
               background: '#E24B4A', color: '#fff',
@@ -382,7 +506,7 @@ export default function Referrals() {
           )}
         </div>
         <p style={{ fontSize: '13px', color: '#777', marginTop: '4px' }}>
-          {tx('Review NRC admission requests from your ASHA workers')}
+          {tx('Review NRC admission requests and verify completed care loop closures with clinical evidence')}
         </p>
       </div>
 
@@ -438,17 +562,19 @@ export default function Referrals() {
           </p>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {filtered.map(r => {
             const sCfg = STATUS_CONFIG[r.status] || STATUS_CONFIG['Pending'];
             const rCfg = RISK_CONFIG[r.riskLevel] || {};
+            const isClosed = (r.status || '').toLowerCase() === 'closed';
+            const isAwaiting = (r.status || '').toLowerCase().includes('awaiting');
 
             return (
               <div
                 key={r.id}
                 style={{
                   background: '#fff',
-                  border: '1px solid #E8E6DF',
+                  border: isAwaiting ? '2px solid #F59E0B' : '1px solid #E8E6DF',
                   borderRadius: '14px',
                   padding: '16px 18px',
                   boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
@@ -481,11 +607,12 @@ export default function Referrals() {
                       background: sCfg.bg, color: sCfg.color,
                       fontSize: '11px', fontWeight: '700',
                       padding: '4px 10px', borderRadius: '20px',
-                      display: 'block', marginBottom: '4px', whiteSpace: 'nowrap',
+                      display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      marginBottom: '4px', whiteSpace: 'nowrap',
                     }}>
-                      <span className="material-symbols-outlined" style={{fontSize: '14px', verticalAlign: 'middle', marginRight: '4px'}}>{sCfg.icon}</span> {tx(r.status, STATUS_I18N[r.status])}
+                      <span className="material-symbols-outlined" style={{fontSize: '14px'}}>{sCfg.icon}</span> {tx(sCfg.label, STATUS_I18N[r.status])}
                     </span>
-                    <p style={{ fontSize: '10px', color: '#aaa' }}>
+                    <p style={{ fontSize: '10px', color: '#aaa', margin: 0 }}>
                       {r.referredDate || (r.createdAt ? new Date(r.createdAt).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : '')}
                     </p>
                   </div>
@@ -514,21 +641,56 @@ export default function Referrals() {
                   </div>
                 )}
 
-                {/* Review button */}
-                <button
-                  onClick={() => setReviewing(r)}
-                  style={{
-                    width: '100%', padding: '10px',
-                    background: r.status === 'Pending' ? '#1D9E75' : '#F5F4EF',
-                    color: r.status === 'Pending' ? '#fff' : '#555',
-                    border: r.status === 'Pending' ? 'none' : '1px solid #D3D1C7',
-                    borderRadius: '10px',
-                    fontSize: '13px', fontWeight: '600', cursor: 'pointer',
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  {r.status === 'Pending' ? <><span className="material-symbols-outlined" style={{fontSize: '16px', verticalAlign: 'middle', marginRight: '4px'}}>edit_document</span> {tx('Review & Assign NRC')}</> : <><span className="material-symbols-outlined" style={{fontSize: '16px', verticalAlign: 'middle', marginRight: '4px'}}>edit</span> {tx('Update Status / NRC Name')}</>}
-                </button>
+                {/* Actions */}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  {!isClosed ? (
+                    <>
+                      <button
+                        onClick={() => setReviewing(r)}
+                        style={{
+                          flex: 1, padding: '10px',
+                          background: '#F5F4EF',
+                          color: '#475569',
+                          border: '1px solid #D3D1C7',
+                          borderRadius: '10px',
+                          fontSize: '13px', fontWeight: '600', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px'
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{fontSize: '16px'}}>edit</span>
+                        {tx('Update Status / NRC')}
+                      </button>
+
+                      <button
+                        onClick={() => setClosingReferral(r)}
+                        style={{
+                          flex: 1, padding: '10px',
+                          background: isAwaiting ? '#085041' : '#fff',
+                          color: isAwaiting ? '#fff' : '#085041',
+                          border: '1.5px solid #085041',
+                          borderRadius: '10px',
+                          fontSize: '13px', fontWeight: '700', cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px',
+                          boxShadow: isAwaiting ? '0 2px 8px rgba(8,80,65,0.25)' : 'none'
+                        }}
+                      >
+                        <span className="material-symbols-outlined" style={{fontSize: '16px'}}>verified</span>
+                        {isAwaiting ? tx('Verify & Close (Action Required)') : tx('Verify & Close')}
+                      </button>
+                    </>
+                  ) : (
+                    <div style={{
+                      width: '100%', padding: '10px 14px',
+                      background: '#F1F5F9', border: '1px solid #CBD5E1',
+                      borderRadius: '10px', color: '#334155',
+                      fontSize: '13px', fontWeight: '600',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+                    }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#16A34A' }}>verified</span>
+                      <span>{tx('Care Loop Closed — Supervisor Verified with Evidence')}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -541,6 +703,17 @@ export default function Referrals() {
           referral={reviewing}
           onClose={() => setReviewing(null)}
           onUpdated={(updatedRef) => {
+            setReferrals(prev => prev.map(r => r.id === updatedRef.id ? { ...r, ...updatedRef } : r));
+          }}
+        />
+      )}
+
+      {/* Verify & Close modal */}
+      {closingReferral && (
+        <VerifyAndCloseModal
+          referral={closingReferral}
+          onClose={() => setClosingReferral(null)}
+          onClosed={(updatedRef) => {
             setReferrals(prev => prev.map(r => r.id === updatedRef.id ? { ...r, ...updatedRef } : r));
           }}
         />

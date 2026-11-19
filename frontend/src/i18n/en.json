@@ -191,5 +191,9 @@
   "auth_worker_inactive": "This ASHA worker account is deactivated. Contact your supervisor.",
   "auth_worker_not_linked": "Your account is not set up for login yet. Contact your supervisor.",
   "auth_invalid_phone": "Please enter a valid 10-digit mobile number.",
-  "auth_rate_limit_exceeded": "Too many attempts. Please wait a moment."
+  "auth_rate_limit_exceeded": "Too many attempts. Please wait a moment.",
+  "awaiting_supervisor_verification": "Awaiting supervisor verification",
+  "verify_and_close": "Verify and close",
+  "closed_supervisor_verified": "Closed (Supervisor Verified)",
+  "ai_screening_disclaimer": "AI-assisted screening, not a diagnosis. Confirm with a clinician."
 }
