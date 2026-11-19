@@ -1,24 +1,24 @@
 # AshaAI
 
-## 💡 Introduction
+## Introduction
 
 <p align="center">
 <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781443006/asha_logo_nix7n7.jpg" width="50%" align="center" style="border-radius: 8px;">
 </p>
 
-**Problem Statement**: Data Driven Volunteer Coordination For Social Impact — India's 1 million+ ASHA (Accredited Social Health Activist) frontline health workers still rely on paper registers to track maternal health, child nutrition, vaccinations, disease surveillance, and orphan/vulnerable-child welfare across rural villages. This causes delayed detection of high-risk cases, double data entry, zero real-time visibility for supervisors, and disconnected coordination with NGOs that care for orphaned and vulnerable children.
+**Problem statement:** India has more than a million ASHA (Accredited Social Health Activist) workers. They still use paper registers to track maternal health, child nutrition, vaccinations, disease surveillance and the welfare of orphaned and vulnerable children in rural villages. The result is late detection of high-risk cases, double data entry, no real-time view for supervisors, and loose coordination with the NGOs that care for vulnerable children. (Google Solution Challenge 2026 theme: Data Driven Volunteer Coordination For Social Impact.)
 
-**Solution**: AshaAI is a multilingual, AI-assisted health platform that digitizes ASHA worker operations end-to-end. Workers fill 12 health registers by voice in Marathi and Hindi, photograph paper registers for OCR import, and scan children for malnutrition using a photo plus a ₹5 coin as a size reference. A deterministic risk engine scores every child and flags high-risk pregnancies, supervisors get real-time oversight through a web portal, and a built-in **NGO & Orphanage Integration** module lets NGOs self-register through Google Forms, lets supervisors book visits and assign workers, and emails NGOs automatically. Everything is offline-first: data queues on the phone and syncs when connectivity returns. **AI only drafts and suggests — a human always taps Save before anything reaches the database.**
+**Solution:** AshaAI moves ASHA work from paper to the phone, in Marathi, Hindi and English. Workers fill 12 health registers by voice, photograph paper registers for OCR import, and screen children for malnutrition using a photo and a ₹5 coin as a size reference. A fixed-formula risk engine scores every child and flags high-risk pregnancies. Supervisors use a web portal to review flags, verify and close referrals, and follow each case through a care loop view. NGOs register through Google Forms, and supervisors book visits, assign workers and email the NGO from the app. Everything works offline and syncs when the phone reconnects. AI only drafts and suggests. A person confirms before anything is saved or closed.
 
-A **Google Solution Challenge 2026** Project — Selected in the **Global Top 100** — and a **Smart India Hackathon 2026** submission (PS ID: SIH26198) — Built by **Team AshaAI**.
+AshaAI was built for Google Solution Challenge 2026, where it was selected in the Global Top 100. It is also entered in the Future Health Digital Innovation Challenge (Population Health: Closing the Screening-to-Care Loop). Built by Team AshaAI.
 
 ## Intro To AshaAI Video
 
 [![Intro To AshaAI](https://res.cloudinary.com/drb4gctam/image/upload/v1781581550/Empowering_ASHAs_Elevating_Healthcare_1_pe40sk.png)](https://youtu.be/ZbqG6uUldfI?si=LarbruBTeVuaWRxU)
 
-A short walkthrough of AshaAI's voice-first, offline-first health platform for ASHA workers. Click the image above to watch the video.
+A short walkthrough of the voice-first, offline-first platform for ASHA workers. Click the image to watch.
 
-### Our Target SDG Goals 🎯
+### Our Target SDG Goals
 
 <p align="center">
   <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781363044/E_PRINT_03_hnvufu.jpg" width="200"/>
@@ -26,13 +26,15 @@ A short walkthrough of AshaAI's voice-first, offline-first health platform for A
   <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781519319/E_PRINT_17_k36bty.jpg" width="200"/>
 </p>
 
-AshaAI enables early detection of high-risk maternal and child health cases through risk scoring and real-time monitoring, directly supporting
-<ins>**SDG 3 — Good Health and Well-being**</ins>. Its NGO & Orphanage Integration module ensures equitable healthcare access for every child — connecting orphaned and vulnerable children with coordinated health visits and welfare support, regardless of where they live or who cares for them — advancing <ins>**SDG 10 — Reduced Inequalities**</ins>. And by building a seamless digital bridge between frontline ASHA workers, government health supervisors, and NGOs/orphanages — automating registration, scheduling, and communication that previously required manual coordination — AshaAI fosters the kind of cross-sector collaboration needed to deliver healthcare at scale, advancing <ins>**SDG 17 — Partnerships for the Goals**</ins>.
+<ins>**SDG 3, Good Health and Well-being.**</ins> Risk scoring and live supervisor monitoring help find high-risk mothers and children earlier.
 
+<ins>**SDG 10, Reduced Inequalities.**</ins> The NGO and orphanage module connects orphaned and vulnerable children to coordinated health visits, wherever they live and whoever cares for them.
 
-## 🌍 Global Recognition for ASHA Workers
+<ins>**SDG 17, Partnerships for the Goals.**</ins> ASHA workers, government supervisors and NGOs work in one system. Registration, scheduling and email that used to be handled by hand are now automated.
 
-> Global leaders and organizations consistently recognize ASHA workers as the indispensable backbone of rural healthcare in India. Their tireless dedication forms the foundation of community well-being, inspiring platforms like **AshaAI** to empower and streamline their vital mission.
+## Global Recognition for ASHA Workers
+
+The Government of India and the WHO have both recognised ASHA workers publicly. Three examples are below.
 
 <br>
 
@@ -54,74 +56,69 @@ AshaAI enables early detection of high-risk maternal and child health cases thro
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSepURZt-f112wNUGblzXPMA_2fAGMKHVDZUg&s" width="100%" style="border-radius: 8px;">
       <br><br>
       <b>Bill Gates</b><br>
-      <i>Co-Chair, Gates Foundation</i>
+      <i>Praise for ASHAs, as recalled by the Prime Minister</i>
     </td>
   </tr>
   <tr style="vertical-align: top;">
     <td style="padding: 10px;">
-      <p><i>"ASHA workers are at the forefront of ensuring a healthy India. Their dedication and determination is admirable."</i></p>
-      <a href="https://www.pmindia.gov.in/en/news_updates/pm-expresses-happiness-on-the-entire-team-of-asha-workers-getting-who-director-generals-global-health-leaders-award/?comment=disable" target="_blank"><b>Read Statement ↗</b></a>
+      <p><i>"They are at the forefront of ensuring a healthy India. Their dedication and determination is admirable."</i></p>
+      <a href="https://www.pmindia.gov.in/en/news_updates/pm-expresses-happiness-on-the-entire-team-of-asha-workers-getting-who-director-generals-global-health-leaders-award/?comment=disable" target="_blank"><b>Read the statement</b></a>
     </td>
     <td style="padding: 10px;">
-      <p><i>Honored India's 1 million ASHA workers for their crucial, life-saving role in linking rural communities with the formal health system.</i></p>
-      <a href="https://x.com/WHO/status/1528411437332369408" target="_blank"><b>View Official Tweet ↗</b></a>
+      <p>In May 2022 the WHO Director-General's Global Health Leaders Award was given to India's ASHA workers.</p>
+      <a href="https://x.com/WHO/status/1528411437332369408" target="_blank"><b>View the WHO post</b></a>
     </td>
     <td style="padding: 10px;">
-      <p><i>Views them as the vital "invisible structure" of global public health, serving as lifesavers bridging the gap to marginalized communities.</i></p>
-      <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=1546792&reg=48&lang=2" target="_blank"><b>Read Press Release ↗</b></a>
+      <p>In 2018 the Prime Minister told a group of ASHA representatives that Bill and Melinda Gates had praised ASHAs for their work against kala-azar.</p>
+      <a href="https://www.pib.gov.in/PressReleasePage.aspx?PRID=1546792&reg=48&lang=2" target="_blank"><b>Read the press release</b></a>
     </td>
   </tr>
 </table>
-<p align="center">
-  <i>🌟 <b>And countless more...</b> Beyond these global figures, ASHA workers receive daily recognition from state health ministries, local NGOs, and the millions of rural families whose lives they touch. Their impact goes far beyond what can be captured in a single table, driving our commitment to build tools that genuinely support their groundwork.</i>
-</p>
 
-## 📚 Technical Architecture & Documentation
+## Technical Architecture & Documentation
 
-Want to dive deeper into how **AshaAI** works under the hood? We have compiled a comprehensive technical document that covers everything from our core algorithms to our database structure. The repository's `docs/` folder also holds the living design documents (`ARCHITECTURE.md`, `PRD.md`, `AI_AUTONOMY_POLICY.md`, `PHASES.md`, `RULES.md`, `MEMORY.md`).
+A separate technical document covers the design in more detail. It includes:
 
-**Inside the document, you will find:**
-* ⚙️ **Complete Tech Stack:** Detailed breakdown of frontend, backend, AI service, and database technologies.
-* 🧠 **Algorithms & Logic:** How our data syncing, offline support, risk engine, and orphan-flagging systems operate.
-* 🏗️ **System Architecture:** How the ASHA worker module communicates with the supervisor portal and the NGO network.
-* 🚀 **Implementation Guide:** Step-by-step insights into how we built and scaled the application.
+* The full tech stack across the frontend, backend, AI service and database.
+* How data sync, offline support, the risk engine and orphan flagging work.
+* How the ASHA app, the supervisor portal and the NGO network talk to each other.
+* How we built the system, step by step.
 
 <br>
 
 <p align="center">
   <a href="https://drive.google.com/file/d/1z8rv3p6vAUzPKhGIpnf9wki-_R4Bv7rg/view?usp=sharing" target="_blank">
-    <img src="https://img.shields.io/badge/📄_View_Full_Project_Documentation-0052CC?style=for-the-badge&logo=googledrive&logoColor=white" alt="View Documentation Button" />
+    <img src="https://img.shields.io/badge/View_Full_Project_Documentation-0052CC?style=for-the-badge&logo=googledrive&logoColor=white" alt="View Documentation Button" />
   </a>
 </p>
 
-## 🗂 Repository Structure
+## Repository Structure
 
 ```
-ashaai-v2/
-├── frontend/     React 19 PWA — ASHA app + Admin/Supervisor portal   → see frontend/README.md
-├── backend/      Spring Boot 3 (Java 21) — the ONLY write path to the database → see backend/README.md
-├── ai-service/   Python FastAPI — provider chain, malnutrition pipeline, voice & agent → see ai-service/README.md
-├── docs/         Architecture, PRD, AI autonomy policy, phases, rules, memory log
-├── scripts/      Azure provisioning + auth seeding helpers
-└── .github/workflows/   CI + deploy workflows (frontend, backend, ai-service, cron)
+asha-ai/
+├── frontend/     React 19 PWA: ASHA app and Admin/Supervisor portal   (see frontend/README.md)
+├── backend/      Spring Boot 3 (Java 21), the only write path to the database   (see backend/README.md)
+├── ai-service/   Python FastAPI: provider chain, malnutrition pipeline, voice and agent   (see ai-service/README.md)
+├── scripts/      Azure provisioning, auth seeding and the MUAC validation script
+└── .github/workflows/   CI and deploy workflows (frontend, backend, ai-service, cron)
 ```
 
 **How the pieces talk to each other**
 
 ```
-React PWA (ASHA + Admin)  ──►  Spring Boot backend  ──►  Supabase PostgreSQL (RLS, Flyway)
-        │                            │
-   IndexedDB offline queue           └──►  FastAPI ai-service  ──►  near.ai (optional)
-                                                                  ► Hugging Face open models
-                                                                  ► Gemini / Groq (final fallback)
-Google Form → Apps Script webhook ──►  Spring Boot  /api/ngo/form-submission  ──►  Gmail SMTP
+React PWA (ASHA + Admin)  -->  Spring Boot backend  -->  Supabase PostgreSQL (row-level security)
+        |                            |
+   IndexedDB offline queue           +-->  FastAPI ai-service  -->  near.ai (optional)
+                                                                 > Hugging Face models
+                                                                 > Gemini / Groq (final fallback)
+Google Form -> Apps Script webhook -->  Spring Boot  /api/ngo/form-submission  -->  Gmail SMTP
 ```
 
-The one rule of the architecture: **React → Spring Boot → Postgres is the only write path.** The frontend never writes application data to Supabase directly (only `supabase.auth.*` calls), and no AI feature can submit, publish, delete, or send on its own.
+One rule shapes the design: React to Spring Boot to Postgres is the only write path. The frontend never writes application data to Supabase directly (only `supabase.auth.*` calls). No AI feature can submit, publish, delete or send on its own.
 
-## ⚙️ Local Development Setup
+## Local Development Setup
 
-Each service is set up independently — follow the README inside the folder:
+Each service has its own setup guide:
 
 | Service | Setup guide | Default local port |
 |---|---|---|
@@ -129,40 +126,40 @@ Each service is set up independently — follow the README inside the folder:
 | AI service (FastAPI) | [`ai-service/README.md`](ai-service/README.md) | `8000` |
 | Frontend (React + Vite) | [`frontend/README.md`](frontend/README.md) | `5173` |
 
-Recommended start order: **backend → ai-service → frontend**.
+Start them in this order: backend, ai-service, frontend.
 
 ```bash
-git clone https://github.com/Rohan45create/ashaai-v2.git
-cd ashaai-v2
+git clone https://github.com/Rohan45create/asha-ai.git
+cd asha-ai
 ```
 
 > [!WARNING]
-> Never commit `.env` / `.env.local` files or paste real keys into workflow files. Runtime secrets live only in your local env files, GitHub Actions secrets, and Azure app settings.
+> Never commit `.env` or `.env.local` files, and never paste real keys into workflow files. Secrets belong in local env files, GitHub Actions secrets and Azure app settings.
 
-## ☁️ Deployment (all free-tier)
+## Deployment (all free tier)
 
 | Component | Hosted on | Deployed by |
 |---|---|---|
 | Frontend | Azure Static Web Apps (Free) | `.github/workflows/deploy-frontend.yml` |
 | Backend | Azure App Service (F1 Free) | `.github/workflows/deploy-backend.yml` |
-| AI service | Azure Container Apps (scale-to-zero) | `.github/workflows/deploy-ai-service.yml` |
-| Database & Auth | Supabase | Flyway migrations run by the backend |
+| AI service | Azure Container Apps (scale to zero) | `.github/workflows/deploy-ai-service.yml` |
+| Database and Auth | Supabase | Schema managed in Supabase |
 | Scheduled jobs | GitHub Actions cron | `.github/workflows/cron-jobs.yml` |
 
-Deploy order: **ai-service → backend → frontend**, then point the NGO Apps Script webhooks at the backend URL.
+Deploy in this order: ai-service, backend, frontend. Then point the NGO Apps Script webhooks at the backend URL.
 
-## 🚀 Getting Started
+## Getting Started
 
 > [!IMPORTANT]
-> AshaAI is offline-first — it works without an internet connection and syncs automatically when connectivity returns.
+> AshaAI is offline-first. It works without a connection and syncs when the phone is back online.
 
 1. Open the live prototype: [https://orange-plant-04dddc700.4.azurestaticapps.net](https://orange-plant-04dddc700.4.azurestaticapps.net)
-2. ASHA Worker Login: Phone number + OTP (test credentials available)
-3. Admin / Supervisor Login:
+2. ASHA worker login: phone number and OTP (test credentials available).
+3. Admin and supervisor login:
    Email: *admin@asha.gov.in*
-   Password: *(provided in demo video / on request)*
+   Password: *(provided in the demo video or on request)*
 
-## ⚠️ Initial Survey and Problem Statement Research
+## Initial Survey and Problem Statement Research
 
 <table style="width: 100%;">
   <tr>
@@ -178,51 +175,49 @@ Deploy order: **ai-service → backend → frontend**, then point the NGO Apps S
   <tr>
     <td align="center" width="50%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1792221473/WhatsApp_Image_2026-10-17_at_12.46.14_PM_o241hf.jpg" alt="Asha Center" width="350"/><br>
-      <p>Organized session for asha worker</p>
+      <p>Organized session for ASHA workers</p>
     </td>
     <td align="center" width="50%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1792221473/WhatsApp_Image_2026-10-17_at_12.46.13_PM_ixoyuf.jpg" alt="MNC Letter" width="350"/><br>
-      <p>Session at Maulana Azad Research center</p>
+      <p>Session at Maulana Azad Research Centre</p>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1792222478/WhatsApp_Image_2026-10-17_at_1.04.24_PM_pb1qm7.jpg" alt="Asha Center" width="350"/><br>
-      <p>Session Team</p>
+      <p>Session team</p>
     </td>
     <td align="center" width="50%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1792222244/imgonline-com-ua-twotoone-ws7yMwqBUxot_pgfsv0.jpg" alt="MNC Letter" width="350"/><br>
-      <p>Municipal Corporation Letters</p>
+      <p>Municipal Corporation letters</p>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <p>📌 We conducted in-depth interviews with practicing ASHA workers in the Marathwada region and photographed their actual physical diary registers — a 128-page book covering 75 different task types across village health surveys, family surveys, performance tasks, and training records.</p>
-      <p>📝 Our findings revealed major pain points: no edit option once data is written (one mistake = permanent error), apps that crash without internet, double work (paper diary then retype in an app), low digital literacy making typing difficult, and no structured way to coordinate with local NGOs caring for orphaned children. These insights fundamentally shaped AshaAI — shifting it from a narrow malnutrition-tracking app into a comprehensive 75-task digital work platform with built-in NGO coordination.</p>
+      <p>We interviewed practising ASHA workers in the Marathwada region and photographed their physical diary registers. The register is a 128-page book covering 75 task types across village health surveys, family surveys, performance tasks and training records.</p>
+      <p>Five problems came up repeatedly. Data cannot be edited once it is written, so one mistake is permanent. Apps crash without internet. Workers do the job twice, first in the paper diary and then again in an app. Low digital literacy makes typing slow. And there is no structured way to coordinate with local NGOs that care for orphaned children. These findings moved AshaAI away from a narrow malnutrition tracker and toward a digital platform for the full set of 75 tasks, with NGO coordination built in.</p>
     </td>
   </tr>
 </table>
 
-## 📊 Real User Research
+## Real User Research
 
-#### In-person interviews with ASHA workers + analysis of physical register pages from real villages in Beed district, Maharashtra.
+#### In-person interviews with ASHA workers, plus analysis of physical register pages from villages in Beed district, Maharashtra.
 
 <hr>
 
 <table style="width: 100%;">
   <tr>
-    <p>➡ Our research highlighted that existing digital health apps for ASHA workers are English-only, require typing, depend entirely on internet connectivity, and have no integration with the NGO/orphanage network that supports vulnerable children in the same villages.</p>
-    <p>➡ We mapped every column of the physical Family Survey Register (कुटुंब पाहणी सर्वेक्षण) and Village Health Survey Register (ग्राम आरोग्य सर्वेक्षण) field-by-field to ensure AshaAI's digital forms are a 1:1 replacement for the paper register ASHA workers already know — and extended this with a dedicated orphan/vulnerable-child flagging system feeding directly into our NGO module.</p>
+    <p>Existing digital health apps for ASHA workers are English-only, need typing, depend on an internet connection, and have no link to the NGOs and orphanages that support vulnerable children in the same villages.</p>
+    <p>We mapped every column of two paper registers field by field: the Family Survey Register (कुटुंब पाहणी सर्वेक्षण) and the Village Health Survey Register (ग्राम आरोग्य सर्वेक्षण). The digital forms are a 1:1 replacement for the paper ones workers already know. We added an orphan and vulnerable-child flag that feeds the NGO module.</p>
   </tr>
 </table>
 
-### 📈 Public Opinion & Community Needs
+### Public Opinion and Community Needs
 
-**Surveyed 1000+ community members and healthcare workers across Maharashtra to understand core field challenges.**
+We surveyed more than 1,000 community members and health workers across Maharashtra about the main challenges in the field.
 
-➡ Overall, our research highlighted the urgency of addressing offline data entry, and AshaAI emerged as a solution-driven platform bringing Marathi and Hindi localization directly to the workers.
-
-➡ We also conducted a survey to get community responses for the most sought-after features listed below.
+The results pointed to offline data entry as the most urgent problem, and to Marathi and Hindi support as something workers want built in. We also asked which features people wanted most. The results are below.
 
 <table style="width: 100%;">
   <tr>
@@ -294,12 +289,12 @@ Deploy order: **ai-service → backend → frontend**, then point the NGO Apps S
         <img src="https://i.ibb.co/pvF3sTkm/image.png" alt="AshaAI Feedbacks Excel Sheet" style="width: 100%;">
       </a>
       <br>
-      <b>AshaAI FeedBacks Excel Sheet</b>
+      <b>AshaAI feedback spreadsheet</b>
     </td>
   </tr>
 </table>
 
-## 🛳 User Guide
+## User Guide
 
 ### Walkthrough
 
@@ -308,211 +303,211 @@ Deploy order: **ai-service → backend → frontend**, then point the NGO Apps S
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360961/Galaxy-Note20-Ultra-ashaai-prod.web.app_wj0zdt.png" width="120"/><br>
       <b>ASHA Login Screen</b><br>
-      Phone OTP login with EN / मर / हि language toggle always visible.
+      Phone OTP login. The EN / मर / हि language toggle is always visible.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360956/Galaxy-Note20-Ultra-ashaai-prod.web.app_1_clwpwf.png" width="120"/><br>
       <b>ASHA Home Dashboard</b><br>
-      Today's families, critical cases, priority list, and quick access to all 12 health modules.
+      Today's families, critical cases, the priority list, and shortcuts to all 12 health modules.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360960/Galaxy-Note20-Ultra-ashaai-prod.web.app_9_a7y8uk.png" width="120"/><br>
       <b>Voice Dictation</b><br>
-      Tap the mic and speak in Marathi/Hindi — the AI structures the data into form fields for the worker to review.
+      Tap the mic and speak in Marathi or Hindi. The AI fills the form fields and the worker reviews them.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781431028/Galaxy-Note20-Ultra-ashaai-prod.web.app2_2_lb3rwz.png" width="120"/><br>
       <b>Register OCR Import</b><br>
-      Photograph a paper register page — vision AI extracts every row, low-confidence fields are flagged for review before import.
+      Photograph a paper register page. Every row is extracted, and low-confidence fields are flagged for review before import.
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360961/Galaxy-Note20-Ultra-ashaai-prod.web.app_13_e8b9dk.png" width="120"/><br>
       <b>AI Malnutrition Scan</b><br>
-      Photograph a child with a ₹5 coin for scale — a 3-model pipeline measures, classifies, and drafts a SAM/MAM/Normal report for the worker to confirm.
+      Photograph a child with a ₹5 coin for scale. Three models estimate the measurement, classify the photo and draft a SAM, MAM or Normal report. The worker confirms it.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360956/Galaxy-Note20-Ultra-ashaai-prod.web.app_6_lgk9n0.png" width="120"/><br>
       <b>Ask AshaAI</b><br>
-      Conversational health Q&A assistant for protocols, danger signs, and guidance.
+      A question-and-answer assistant for health protocols, danger signs and guidance.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360960/Galaxy-Note20-Ultra-ashaai-prod.web.app_14_dthump.png" width="120"/><br>
       <b>Download Survey Registers</b><br>
-      ASHA workers can export any register as a report for a custom date range.
+      Export any register as a report for a date range of the worker's choice.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360961/Macbook-Air-ashaai-prod.web.app_1_f6jbmc.png" width="300"/><br>
       <b>Admin Dashboard</b><br>
-      Real-time view of all ASHA workers, families covered, critical cases, and survey completion.
+      Live view of all ASHA workers, families covered, critical cases and survey completion.
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360968/Macbook-Air-ashaai-prod.web.app_7_bu3xri.png" width="300"/><br>
       <b>Pending Review Queue</b><br>
-      Supervisors review flagged alerts (validation flags, high-risk ANC, NGO registrations) and approve/reject with one tap.
+      Supervisors approve or reject flagged items such as validation flags, high-risk ANC cases and NGO registrations.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360969/Macbook-Air-ashaai-prod.web.app_8_akgzck.png" width="300"/><br>
       <b>Survey Builder</b><br>
-      Supervisors create new survey fields with auto-translation to Marathi & Hindi and publish to all workers instantly.
+      Supervisors create survey fields, which are translated to Marathi and Hindi automatically, and publish them to all workers.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360964/Macbook-Air-ashaai-prod.web.app_4_lrhvky.png" width="300"/><br>
       <b>NRC Referral Tracking</b><br>
-      Track malnutrition referrals from pending → admitted → discharged with full case history.
+      Follow malnutrition referrals from pending to admitted to discharged, with the full case history.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360967/Macbook-Air-ashaai-prod.web.app_9_jrzweo.png" width="300"/><br>
       <b>Coverage Map</b><br>
-      Google Maps-powered village-level view showing coverage and critical cases across the district.
+      A Google Maps view of village coverage and critical cases across the district.
     </td>
   </tr>
   <tr>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360964/Macbook-Air-ashaai-prod.web.app_6_xwtevu.png" width="300"/><br>
       <b>NGO Management</b><br>
-      Supervisors view all registered NGOs/orphanages, approve new registrations, and manage their details.
+      Supervisors see every registered NGO and orphanage, approve new registrations and edit their details.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781360956/Galaxy-Note20-Ultra-ashaai-prod.web.app_3_yeteie.png" width="120"/><br>
       <b>NGO Appointment Booking</b><br>
-      Schedule visits to an NGO/orphanage and assign specific workers, with automatic email confirmation.
+      Book a visit to an NGO or orphanage, assign workers, and send an email confirmation automatically.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781431029/Galaxy-Note20-Ultra-docs.google.com_d6mht4.png" width="120"/><br>
       <b>NGO Self-Registration (Google Forms)</b><br>
-      New NGOs register themselves via a Google Form — submissions flow into the admin's pending review queue automatically.
+      New NGOs register through a Google Form. Each submission lands in the admin's pending review queue.
     </td>
     <td align="center" width="25%">
       <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1781431015/Screenshot_2026-06-14_152019_tz3943.png" width="300"/><br>
       <b>Automated NGO Emails</b><br>
-      NGOs receive professional email notifications for scheduled visits, with a one-click reschedule link.
+      NGOs get an email for each scheduled visit, with a one-click reschedule link.
     </td>
   </tr>
 </table>
 
-## Key Features:
+## Key Features
 
-- **Offline-first architecture** — fully functional with zero connectivity; an IndexedDB queue and Service Worker sync automatically when online.
-- **Voice dictation in Marathi & Hindi** on every form, via a provider chain: near.ai (optional) → AI4Bharat Indic-Whisper → Gemini.
-- **Conversational Agent** — one tap starts a continuous spoken session: fill a survey by talking (draft only, worker confirms) or ask for a PDF report by voice.
-- **Register OCR import** — digitizes handwritten paper registers row-by-row with confidence scoring.
-- **AI Malnutrition Scanner (3-model pipeline)** — MediaPipe + ₹5-coin measurement, a custom ONNX classifier, and a Gemini + Groq consensus report; the worker must confirm the grade before it saves.
-- **Deterministic Predictive Risk Engine** — scores every child 0–100 from real signals (no AI guess), plus genetic-risk augmentation and a supervisor-confirmed high-risk ANC flag.
-- **Priority List** — merges risk scores, overdue visits/vaccines, and supervisor flags into one ranked list per worker.
-- **12 health modules, one generic renderer** — all modules (and supervisor-built custom surveys) are database-driven schemas rendered by a single dynamic form.
-- **Full edit capability** on every field with an append-only audit trail.
-- **Dynamic Survey Builder** — supervisors publish new surveys without code, auto-translated to Marathi & Hindi.
-- **Permanent-UUID identity** — Aadhaar or temporary ID is only a lookup key; Aadhaar card scanning is on-device OCR only and the image never leaves the phone. Aadhaar/ABHA fields are AES-256-GCM encrypted.
-- **Human-in-the-loop AI** — every AI feature drafts and suggests; no agent has a submit/publish/delete/send tool.
-- **NGO & Orphanage Integration** — NGOs self-register via Google Forms, supervisors approve registrations, book visits, assign ASHA workers, and the system emails the NGO with visit details and a pre-filled reschedule link.
-- **Real-time supervisor portal** with dashboard, worker activity, NRC referral tracking, coverage map, and PDF/CSV reports.
+- **Offline first.** Every module works with no connection. An IndexedDB queue and a service worker sync the data when the phone is back online.
+- **Voice dictation in Marathi and Hindi** on every form. The speech provider chain is near.ai (optional), then a Hugging Face model, then Gemini.
+- **Conversational agent.** One tap starts a spoken session. The worker can fill a survey by talking (draft only) or ask for a PDF report by voice.
+- **Register OCR import.** Handwritten paper registers are digitised row by row, with a confidence score on each field.
+- **Malnutrition scanner with three models.** MediaPipe and the ₹5 coin give a size estimate, a custom ONNX classifier checks the photo, and Gemini and Groq write a combined report. The worker confirms the grade before it is saved. The measurement is an estimate and the UI says to confirm it with a tape.
+- **Risk engine without AI guesses.** Every child gets a 0 to 100 score from a fixed formula, with a separate uplift when a sibling has a SAM or MAM record, and a supervisor-confirmed high-risk ANC flag.
+- **Priority list.** Risk scores, overdue visits and vaccines, and supervisor flags are merged into one ranked list per worker.
+- **12 modules, one form renderer.** All modules, and any survey a supervisor builds, are database-driven schemas shown by a single dynamic form.
+- **Full edit capability** on every field, with an append-only audit trail.
+- **Survey Builder.** Supervisors publish new surveys without code, translated to Marathi and Hindi.
+- **Permanent identity.** Every person has a permanent UUID. Aadhaar or a temporary ID is only a lookup key. Aadhaar card scanning is on-device OCR, so the image never leaves the phone, and Aadhaar and ABHA fields are encrypted with AES-256-GCM.
+- **Human in the loop.** AI features draft and suggest. No agent has a submit, publish, delete or send tool.
+- **NGO and orphanage integration.** NGOs self-register through Google Forms. Supervisors approve them, book visits, assign ASHA workers, and the system emails the NGO the visit details and a pre-filled reschedule link.
+- **Supervisor portal.** Dashboard, worker activity, NRC referral tracking, coverage map, and PDF and CSV reports.
+
+**Added after organiser feedback (Future Health Digital Innovation Challenge)**
+
+- **Referral closure needs a supervisor.** An ASHA can only request closure. A supervisor closes it, and must enter an evidence note of at least 10 characters. Each closure is written to the audit trail.
+- **Care loop view for supervisors.** A desktop page lists open cases with days since flagged, the assigned ASHA, appointment status and overdue days. It shows a rule-based drop-off risk (low, medium or high) with the reasons: no appointment booked after 7 days, appointment rescheduled or missed, referral rejected, or no ASHA visit in 14 days. It is not a prediction model.
+- **Family reminder drafts** in English, Marathi and Hindi. A person copies the text or opens it in WhatsApp and sends it. Nothing is sent automatically.
+- **"AI-assisted screening, not a diagnosis"** label on the scanner result, the ANC flag, the risk score, reports and the chatbot.
+- **FHIR-ready export.** Read-only, supervisor-only endpoints return FHIR R4 Patient, Observation and ServiceRequest resources. The data is synthetic and the export is not connected to any live health record system.
+- **MUAC validation script** for comparing app readings with tape readings (see the scanner notes below).
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Frontend | React 19, Vite, Tailwind CSS, Zustand, PWA (vite-plugin-pwa), IndexedDB offline queue |
-| Backend | Spring Boot 3.5, Java 21, Spring Data JPA, Spring Security (Supabase JWKS), Flyway |
+| Backend | Spring Boot 3.5, Java 21, Spring Data JPA, Spring Security (Supabase JWKS) |
 | AI microservice | Python FastAPI, Pydantic v2, onnxruntime, MediaPipe |
-| AI providers | near.ai (optional) → Hugging Face open models (Indic-Whisper, Sarvam-30B, IndicTrans2) → Gemini / Groq |
-| Database & Auth | Supabase PostgreSQL with Row-Level Security, Supabase Auth (Phone OTP for ASHA, Email/Password for admin) |
-| NGO automation | Google Forms + Apps Script webhook, Gmail SMTP |
+| AI providers | near.ai (optional), then Hugging Face models (Whisper for speech, Sarvam-30B for text, IndicTrans2 for translation), then Gemini and Groq |
+| Database and Auth | Supabase PostgreSQL with row-level security. Supabase Auth: phone OTP for ASHA workers, email and password for admins |
+| NGO automation | Google Forms and Apps Script webhook, Gmail SMTP |
 | Maps | Google Maps JavaScript API |
-| Hosting & CI/CD | Azure Static Web Apps, App Service, Container Apps; GitHub Actions |
+| Hosting and CI/CD | Azure Static Web Apps, App Service and Container Apps; GitHub Actions |
 
-# AshaAI Project Implementation Overview
+# Implementation Overview
 
-1. **Technology Stack**: React 19 PWA (Vite, Tailwind CSS, Zustand) on the frontend, a Spring Boot 3 / Java 21 backend as the single write path, a Python FastAPI AI microservice, and Supabase PostgreSQL as the row-level-secured database.
+1. **Stack.** A React 19 PWA (Vite, Tailwind CSS, Zustand), a Spring Boot 3 backend on Java 21 as the only write path, a Python FastAPI AI service, and Supabase PostgreSQL with row-level security.
 
-2. **AI Layer**: A provider chain per task — speech-to-text, text reasoning, and translation each try near.ai (only if a key is present), then free open-source India-focused models on Hugging Face, then Gemini/Groq as the final fallback. Vision (register OCR, malnutrition report) uses Gemini. Critical outputs use a two-provider consensus check, and a disagreement is routed to mandatory supervisor review.
+2. **AI layer.** Speech-to-text, text reasoning and translation each use a chain of providers. The chain tries near.ai only if a key is set, then Hugging Face models, then Gemini or Groq. Register OCR and the malnutrition report use Gemini for vision. For critical outputs, two providers are compared, and a disagreement goes to a supervisor for review.
 
-3. **Voice & Language**: Marathi, Hindi, and English across the UI, voice dictation, survey translation, and the conversational agent (browser VAD + on-device text-to-speech).
+3. **Language.** Marathi, Hindi and English across the UI, voice dictation, survey translation and the conversational agent (browser voice activity detection and on-device text-to-speech).
 
-4. **Offline-First Design**: A Service Worker plus an IndexedDB write queue keep every module working with zero connectivity; queued writes replay on reconnect with a visible sync status.
+4. **Offline.** A service worker and an IndexedDB write queue keep every module working without a connection. Queued writes replay on reconnect, and the sync status is visible.
 
-5. **Risk Engine**: A deterministic weighted formula (not an AI call) scores every child 0–100, forces SAM cases to CRITICAL, and adds a separate genetic-risk uplift when a sibling has a SAM/MAM record.
+5. **Risk engine.** A weighted formula, not an AI call, scores every child from 0 to 100. A SAM case is forced to CRITICAL. A separate uplift applies when a sibling has a SAM or MAM record.
 
-6. **Security & Compliance**: JWTs validated against Supabase's asymmetric JWKS, RLS on every table, AES-256-GCM for Aadhaar/ABHA, on-device-only Aadhaar OCR, rate limiting with tighter limits on AI endpoints, and structured logs with no personal health data. Designed with the DPDP Act in mind.
+6. **Security.** JWTs are checked against Supabase's signing keys (JWKS). Row-level security policies protect the database. Aadhaar and ABHA fields use AES-256-GCM, and Aadhaar OCR runs only on the device. The phone-number check has a rate limiter. Logs contain no personal health data. The design follows the principles of the DPDP Act.
 
-7. **Supervisor Web Portal**: A dedicated `/admin` area with dashboard, worker management, NRC referrals, NGO management, pending review, a no-code Survey Builder, a coverage map, and reports.
+7. **Supervisor portal.** An `/admin` area with a dashboard, worker management, NRC referrals, a care loop view, NGO management, pending review, a no-code Survey Builder, a coverage map and reports. Closing a referral takes a supervisor and an evidence note.
 
-8. **Real User Research**: Architecture and feature priorities were directly informed by interviews with practicing ASHA workers and photographs of their physical diary registers.
+8. **User research.** Interviews with practising ASHA workers and photographs of their paper registers set the architecture and feature priorities.
 
-9. **NGO & Orphanage Integration**: Google Forms + Apps Script webhooks let NGOs self-register and request appointment changes; the backend queues them for admin approval, books visits, and sends Gmail SMTP notifications with reschedule links.
+9. **NGO integration.** Google Forms and Apps Script webhooks let NGOs register and ask for appointment changes. The backend queues them for admin approval, books visits and sends Gmail SMTP notifications with reschedule links.
 
-10. **Free-tier by design**: Azure Static Web Apps, App Service F1, Container Apps scale-to-zero, Supabase free tier, and open-source models — the platform is built to run at ₹0 for demos and pilots.
+10. **Cost.** Azure Static Web Apps, App Service F1, Container Apps with scale to zero, and the Supabase free tier. The platform runs at no cost for demos and pilots.
 
-## 📖 Resources & References
+## Resources & References
 
 ### ASHA Worker Domain Research
-These shaped AshaAI's data model, module list, and feature priorities.
+These sources shaped the data model, the module list and the feature priorities.
 
-- [About ASHA — National Health Mission (Government of India)](https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=150&lid=226) — official role definition, selection criteria, and responsibilities of ASHA workers
-- [Guidelines on Accredited Social Health Activists (ASHA) — NHM PDF](https://nhm.gov.in/images/pdf/communitisation/task-group-reports/guidelines-on-asha.pdf) — the foundational government guideline document covering ASHA tasks, training, and incentive structure
-- [ASHA Scheme — NHM Maharashtra](https://nhm.maharashtra.gov.in/en/scheme/accredited-social-health-activist-asha/) — state-level implementation details for Maharashtra, including programmes ASHAs support (Immunization, NCD, HBNC/HBYC)
-- [ANMOL App — RCH Portal, NHM Maharashtra](https://nhm.maharashtra.gov.in/en/scheme/reproductive-child-health-rch-portal/) — the existing government digital health app for ANM/ASHA workers; AshaAI is designed to complement and improve on this offline-first model
-- [Reimagining Maternal Health Record Keeping for ASHA Workers — UX case study](https://medium.com/@surbhisardana/reimagining-maternal-health-record-keeping-for-asha-workers-1113551866b0) — direct documentation of the "10+ paper registers + ANMOL" pain points that motivated AshaAI's offline-first, voice-first design
-- [Knowledge of ASHAs in India — Systematic Review (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC11724453/) — peer-reviewed synthesis of ASHA training gaps across India, 2005–2022
+- [About ASHA, National Health Mission](https://nhm.gov.in/index1.php?lang=1&level=1&sublinkid=150&lid=226): the official role, selection criteria and responsibilities.
+- [Guidelines on Accredited Social Health Activists (ASHA), NHM PDF](https://nhm.gov.in/images/pdf/communitisation/task-group-reports/guidelines-on-asha.pdf): the government guideline on ASHA tasks, training and incentives.
+- [ASHA Scheme, NHM Maharashtra](https://nhm.maharashtra.gov.in/en/scheme/accredited-social-health-activist-asha/): how the scheme runs in Maharashtra, including the programmes ASHAs support (immunisation, NCD, HBNC and HBYC).
+- [ANMOL App, RCH Portal, NHM Maharashtra](https://nhm.maharashtra.gov.in/en/scheme/reproductive-child-health-rch-portal/): the government's digital health app for ANM and ASHA workers. AshaAI is meant to complement it with an offline-first design.
+- [Reimagining Maternal Health Record Keeping for ASHA Workers, a UX case study](https://medium.com/@surbhisardana/reimagining-maternal-health-record-keeping-for-asha-workers-1113551866b0): documents the problem of more than 10 paper registers plus ANMOL, which motivated our offline, voice-first design.
+- [Knowledge of ASHAs in India, a systematic review (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC11724453/): a peer-reviewed summary of ASHA training gaps across India, 2005 to 2022.
 
-### Malnutrition & Nutrition Standards
-- [WHO Child Growth Standards & Identification of SAM (WHO/NCBI Bookshelf)](https://www.ncbi.nlm.nih.gov/books/NBK200776/) — defines the MUAC < 115 mm SAM cutoff and weight-for-height Z-score criteria (AshaAI uses 115 mm SAM / 125 mm MAM)
-- [Community-Based Management of Acute Malnutrition — FHI360 Module 2](https://www.fhi360.org/wp-content/uploads/2012/12/CMAM_Training_Mod2_ENGLISH_Nov2008.pdf) — SAM/MAM clinical signs (bilateral pitting oedema, MUAC bands)
-- [Mission Poshan 2.0 / Saksham Anganwadi — Ministry of Women & Child Development](https://wcd.gov.in/offerings/nutrition-mission-saksham-anganwadi-and-poshan-2-0-mission-saksham-anganwadi-poshan-2-0) — official NRC referral and nutrition tracking framework AshaAI's referral pipeline aligns with
+### Malnutrition and Nutrition Standards
+- [WHO Child Growth Standards and identification of SAM (NCBI Bookshelf)](https://www.ncbi.nlm.nih.gov/books/NBK200776/): defines the MUAC cut-off below 115 mm for SAM and the weight-for-height criteria. AshaAI uses 115 mm for SAM and 125 mm for MAM.
+- [Community-Based Management of Acute Malnutrition, FHI360 Module 2](https://www.fhi360.org/wp-content/uploads/2012/12/CMAM_Training_Mod2_ENGLISH_Nov2008.pdf): clinical signs of SAM and MAM, including bilateral pitting oedema and the MUAC bands.
+- [Mission Poshan 2.0 / Saksham Anganwadi, Ministry of Women and Child Development](https://wcd.gov.in/offerings/nutrition-mission-saksham-anganwadi-and-poshan-2-0-mission-saksham-anganwadi-poshan-2-0): the national nutrition and NRC referral framework our referral flow follows.
 
-### AI Malnutrition Scanner — Architecture Findings & Verification Notes
-- **Arm Measurement Landmark Proxy**: In `ai-service/services/gemini_service.py` (lines 213-226), the camera measurement computes the Euclidean pixel distance between MediaPipe Pose landmarks `LEFT_ELBOW` (13) and `LEFT_WRIST` (15) as a proxy for arm diameter / circumference (taking 1/3 of the forearm segment). Note that this is an anatomical landmark proxy distance and not the true physical mid-upper-arm circumference (MUAC) measured with a Shakir tape. Consequently, all UI interfaces clearly designate this as "Estimated MUAC (confirm with tape)" and display an explicit screening disclaimer.
-- **Reference Coin Scaling Constant**: In `ai-service/services/gemini_service.py` (line 248), the reference coin diameter is hardcoded as `25.0 mm` with a code comment describing it as "Indian 1 Rupee coin diameter". Concurrently, the frontend guidance prompts the user to place a standard ₹5 coin. Per architectural guardrails, no underlying constants or numbers are altered, but this discrepancy is documented for clinicians, researchers, and evaluators.
-- **Validation Script**: A standalone validation utility is provided at [`scripts/validate_muac.py`](scripts/validate_muac.py) (accompanied by sample data [`scripts/sample_muac_validation.csv`](scripts/sample_muac_validation.csv)) to compute Bland-Altman 95% Limits of Agreement, MAE, bias, and SAM/MAM sensitivity and specificity against clinical tape readings.
+### Scanner Notes and Validation
+- **Arm measurement.** In `ai-service/services/gemini_service.py`, the camera measurement takes the pixel distance between the MediaPipe elbow and wrist landmarks as a stand-in for arm size. This is not mid-upper-arm circumference as measured with a Shakir tape, so the app shows it as "Estimated MUAC (confirm with tape)" with a screening disclaimer.
+- **Reference coin.** The same file sets the reference coin diameter to 25.0 mm, with a comment calling it a 1 rupee coin. The on-screen guide asks for a ₹5 coin. We have not changed the number, and we list the mismatch here so reviewers know about it.
+- **Validation script.** [`scripts/validate_muac.py`](scripts/validate_muac.py) and the sample file [`scripts/sample_muac_validation.csv`](scripts/sample_muac_validation.csv) compare app readings with tape readings. The script reports mean absolute error, bias, Bland-Altman 95% limits of agreement, and sensitivity and specificity for SAM. The sample rows only show the file format.
+- **Status.** The scanner has not been validated against clinician measurements. It is a screening aid, not a diagnosis.
 
-### Platform & AI Documentation
-- [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/index.html) — backend framework
-- [Supabase Documentation](https://supabase.com/docs) — Postgres, Auth, Row-Level Security, Storage
-- [Flyway Documentation](https://documentation.red-gate.com/flyway) — database migrations
-- [FastAPI Documentation](https://fastapi.tiangolo.com/) — AI microservice
-- [ONNX Runtime](https://onnxruntime.ai/docs/) — CPU inference for the malnutrition classifier
-- [MediaPipe Tasks](https://ai.google.dev/edge/mediapipe/solutions/guide) — pose landmarks for arm measurement
-- [Hugging Face — AI4Bharat](https://huggingface.co/ai4bharat) — Indic-Whisper and IndicTrans2 open models
-- [Hugging Face — Sarvam AI](https://huggingface.co/sarvamai) — Sarvam open-weight models for Indian languages
-- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs) — vision and final-fallback provider
-- [Google Maps Platform — Maps JavaScript API](https://developers.google.com/maps/documentation/javascript) — coverage map
-- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) — Service Worker / PWA manifest
+### Platform and AI Documentation
+- [Spring Boot reference](https://docs.spring.io/spring-boot/index.html): backend framework
+- [Supabase documentation](https://supabase.com/docs): Postgres, Auth, row-level security, Storage
+- [FastAPI documentation](https://fastapi.tiangolo.com/): AI microservice
+- [ONNX Runtime](https://onnxruntime.ai/docs/): CPU inference for the malnutrition classifier
+- [MediaPipe Tasks](https://ai.google.dev/edge/mediapipe/solutions/guide): pose landmarks for the arm measurement
+- [Hugging Face, AI4Bharat](https://huggingface.co/ai4bharat): open models for Indian languages, including IndicTrans2
+- [Hugging Face, Sarvam AI](https://huggingface.co/sarvamai): open-weight Sarvam models
+- [Gemini API documentation](https://ai.google.dev/gemini-api/docs): vision and final fallback provider
+- [Google Maps Platform, Maps JavaScript API](https://developers.google.com/maps/documentation/javascript): coverage map
+- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/): service worker and PWA manifest
 
-### Hosting & CI/CD
-- [Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/) — frontend hosting
-- [Azure App Service](https://learn.microsoft.com/azure/app-service/) — backend hosting
-- [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/) — AI microservice hosting
-- [GitHub Actions](https://docs.github.com/actions) — CI/CD workflows
+### Hosting and CI/CD
+- [Azure Static Web Apps](https://learn.microsoft.com/azure/static-web-apps/): frontend hosting
+- [Azure App Service](https://learn.microsoft.com/azure/app-service/): backend hosting
+- [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/): AI microservice hosting
+- [GitHub Actions](https://docs.github.com/actions): CI/CD workflows
 
-### Data Privacy & Compliance (India)
-- [Digital Personal Data Protection Act, 2023 — Official Text (MeitY)](https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf) — governs AshaAI's consent, minimisation, and retention design
-- [DPDP Rules 2025 — PIB Press Release](https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=156054&ModuleId=3&reg=3&lang=2) — the core principles (consent, purpose limitation, data minimisation)
+### Data Privacy and Compliance (India)
+- [Digital Personal Data Protection Act, 2023, official text (MeitY)](https://www.meity.gov.in/static/uploads/2024/06/2bf1f0e9f04e6fb4f8fef35e82c42aa5.pdf): the basis for our consent, minimisation and retention design.
+- [DPDP Rules 2025, PIB press release](https://www.pib.gov.in/PressNoteDetails.aspx?NoteId=156054&ModuleId=3&reg=3&lang=2): the core principles of consent, purpose limitation and data minimisation.
 
-### NGO Integration — Forms & Automation
-- [Apps Script — Installable Triggers (onFormSubmit)](https://developers.google.com/apps-script/guides/triggers/installable) — the trigger pattern used for the NGO registration webhook
-- [Apps Script — UrlFetchApp (HTTP requests)](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app) — used to POST form submissions to the backend's `/api/ngo/form-submission` endpoint
+### NGO Integration: Forms and Automation
+- [Apps Script, installable triggers (onFormSubmit)](https://developers.google.com/apps-script/guides/triggers/installable): the trigger behind the NGO registration webhook.
+- [Apps Script, UrlFetchApp](https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app): used to POST form submissions to the backend's `/api/ngo/form-submission` endpoint.
 
 # Hi, We are Team AshaAI
 
-## 🤝 Contributors
+## Contributors
 
-We are a team of six Computer Engineering students from [Maharashtra Institute of Technology](https://www.linkedin.com/school/mit-csn/posts/?feedView=all), Chhatrapati Sambhajinagar, Maharashtra, building AshaAI for the **Smart India Hackathon 2026**.
+We are two Computer Engineering students at [Maharashtra Institute of Technology](https://www.linkedin.com/school/mit-csn/posts/?feedView=all), Chhatrapati Sambhajinagar, Maharashtra.
 
-| Avatar | Name | Role | LinkedIn |
-|:---:|---|---|---|
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?shapeProbability=46&glyphColor=76a7ff,525fa3,8c8c8c,ffaa64,ff4d6f&seed=Rohan%20Gangawane" alt="avatar" /> | Rohan Gangawane | Team Lead / Full-Stack & AI | [rohan-gangawane](https://www.linkedin.com/in/rohan-gangawane/) |
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?shapeProbability=46&glyphColor=76a7ff,525fa3,8c8c8c,ffaa64,ff4d6f&seed=Sahil%20" alt="avatar" /> | Sahil Dawande | Frontend Dev & Researcher | [sahil-dawande](https://www.linkedin.com/in/sahil-dawande-645a70361/) |
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?seed=Sakshi" alt="avatar" /> | Sakshi Bhutekar | Backend Developer | [sakshi-bhutekar](https://www.linkedin.com/in/sakshi-bhutekar-3009572ba/) |
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?seed=Pratik" alt="avatar" /> | Pratik Bhosale | UI/UX Designer / Database | [pratik-bhosale](https://www.linkedin.com/in/pratik-bhosale-756489318/) |
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?seed=Sanjana%20Pingle" alt="avatar" /> | Sanjana Pingle | Researcher | [sanjana-pingle](https://www.linkedin.com/in/sanjana-pingle?utm_source=share_via&utm_content=profile&utm_medium=member_ios) |
-| <img src="https://api.dicebear.com/10.x/glyphs/svg?seed=Maithili%20" alt="avatar" /> | Maithili Kausadikar | UI/UX / Documentation | [maithili-kausadikar](https://www.linkedin.com/in/maithili-kausadikar-090297303?utm_source=share_via&utm_content=profile&utm_medium=member_android) |
+| [Rohan Gangawane](https://www.linkedin.com/in/rohan-gangawane/) | [Akshay Chaudhari](https://www.linkedin.com/in/akshay-chaudhari-31b4b4264/) |
+| -------------------------------------- | ---------------------------------- |
+| <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1782743962/1769608412988_tun4ta.png" width="300"> | <img src="https://res.cloudinary.com/drb4gctam/image/upload/v1782743949/1764447703320_wwkboz.png" width="300"> |
+| Team Lead / Full-Stack & AI | Frontend Dev / Researcher |
 
-
-## Keep Building 🚀
-
-Join us in the mission to digitize India's rural healthcare frontline, eliminate paperwork for ASHA workers, and bring early-warning risk scoring — and coordinated child welfare support — to the communities that need them most!
-
-Made with ❤️ by Team AshaAI — Empowering ASHA Workers, One Village at a Time.
+AshaAI aims to take paperwork off ASHA workers and bring early risk scoring and coordinated child welfare support to the villages that need them.
