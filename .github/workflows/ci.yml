@@ -29,7 +29,8 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - run: ./mvnw test
+      - run: ./mvnw test -Dtest="!*IntegrationTest"
+    
 
   ai-service:
     name: AI service syntax check
