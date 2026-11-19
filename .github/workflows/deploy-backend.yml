@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: ashaai-back 
+  AZURE_WEBAPP_NAME: ashaai-back-fh 
   JAVA_VERSION: '21'                  
   DISTRIBUTION: 'temurin'
 
